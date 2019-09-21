@@ -469,10 +469,10 @@ function drawstack(name, list, dayleft, dayright, namelist, idlist) {
             temo.itemStyle = { normal: { areaStyle: { type: 'default' } } },
               da.push(temo)
             me.push(na)
-            da.find(function (x) { return x.name == na }).data.push(parseFloat(list1[i]['children'][j].reweight) * parseFloat(list1[i]['children'][j].index) / 100)
+            da.find(function (x) { return x.name == na }).data.push(parseFloat(list1[i]['children'][j].reweight) * parseFloat(list1[i]['children'][j].index))
           }
           else if (na != '茶') {
-            da.find(function (x) { return x.name == na }).data.push(parseFloat(list1[i]['children'][j].reweight) * parseFloat(list1[i]['children'][j].index) / 100)
+            da.find(function (x) { return x.name == na }).data.push(parseFloat(list1[i]['children'][j].reweight) * parseFloat(list1[i]['children'][j].index))
           }
         }
       }
@@ -494,10 +494,10 @@ function drawstack(name, list, dayleft, dayright, namelist, idlist) {
             temo.itemStyle = { normal: { areaStyle: { type: 'default' } } },
               da.push(temo)
             me.push(na)
-            da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) / 100)
+            da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) )
           }
           else if (na != '茶') {
-            da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) / 100)
+            da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) )
           }
         }
       }
@@ -523,7 +523,7 @@ function drawstack(name, list, dayleft, dayright, namelist, idlist) {
               da.find(function (x) { return x.name == na }).data.push(0)
             }
             else {
-              da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) / 100)
+              da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) )
             }
           }
           else if (na != '茶') {
@@ -531,7 +531,7 @@ function drawstack(name, list, dayleft, dayright, namelist, idlist) {
               da.find(function (x) { return x.name == na }).data.push(0)
             }
             else {
-              da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) / 100)
+              da.find(function (x) { return x.name == na }).data.push(parseFloat(tee[j].reweight) * parseFloat(tee[j].index) )
             }
           }
         }
@@ -559,156 +559,8 @@ d3.csv("data/number.csv", function (namedata) {
     }
     IDLIST = idlist
     NAMELIST = namelist
-
-    var nodelist = {}
-    var teml = []
-    var teml2 = []
-    for (i in idlist) {
-      if (i.length == 1) {
-        var temo = {}
-        temo["name"] = idlist[i]
-        temo["index"] = 0
-        temo["weight"] = 0
-        temo["base"] = 0
-        temo['reweight'] = 0
-        temo["value"] = null
-
-        temo["children"] = []
-        teml.push(temo)
-        nodelist["children"] = teml;
-      }
-      else if (i.length == 3) {
-        var j = i + "";
-        var temo = {}
-        temo["name"] = idlist[i];
-        temo["index"] = 0
-        temo["weight"] = 0
-        temo['reweight'] = 0
-        temo["base"] = 0
-        temo["value"] = null
-        temo["children"] = [];
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].push(temo)
-      }
-      else if (i.length == 5) {
-        var j = i + "";
-        var temo = {}
-        var mm = j[0] + j[1] + j[2];
-        temo["name"] = idlist[i];
-        temo["index"] = 0
-        temo["weight"] = 0
-        temo['reweight'] = 0
-        temo["base"] = 0
-        temo["value"] = null
-        temo['price'] = 0
-        temo['basesalel'] = 0
-        temo['basesalee'] = 0
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].push(temo)
-      }
-    }
-    var h = 0;
-    var te = date1[h];
-    var treelist = {}
-
-    for (i in iddata) {
-      friname = iddata[i]["一级类别"]
-      secname = iddata[i]["二级类别"]
-      thrname = iddata[i]["三级类别"]
-      if (thrname == "三级类别") {
-        nodelist.name = "tea叶"
-        treelist[te] = nodelist;
-        h++;
-        te = date1[h];
-        nodelist = {}
-        var teml = []
-        var teml2 = []
-        for (i in idlist) {
-          if (i.length == 1) {
-            var temo = {}
-            temo["name"] = idlist[i]
-            temo["index"] = 0
-            temo["weight"] = 0
-            temo["reweight"] = 0
-            temo["base"] = 0
-            temo["value"] = null
-            temo["children"] = []
-            teml.push(temo)
-            nodelist["children"] = teml;
-          }
-          else if (i.length == 3) {
-            var j = i + "";
-            var temo = {}
-            temo["name"] = idlist[i];
-            temo["index"] = 0
-            temo["weight"] = 0
-            temo["reweight"] = 0
-            temo["base"] = 0
-            temo["value"] = null
-            temo["children"] = [];
-            nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].push(temo)
-          }
-          else if (i.length == 5) {
-            var j = i + "";
-            var temo = {}
-            var mm = j[0] + j[1] + j[2];
-            temo["name"] = idlist[i];
-            temo["index"] = 0
-            temo["weight"] = 0
-            temo["reweight"] = 0
-            temo["base"] = 0
-            temo["value"] = null
-            temo['price'] = 0
-            temo['basesalel'] = 0
-            temo['basesalee'] = 0
-            nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].push(temo)
-          }
-        }
-      }
-      else {
-        if (friname != '一级类别' && friname != "") {
-          var friid = namelist[friname] + ''
-          var j = friid[0];
-          var frindex = parseFloat(iddata[i].一级类指数)
-          var fribas = parseFloat(iddata[i].一级基期价格)
-          var friweight = parseFloat(iddata[i].一级调整权重)
-          var frireweight = parseFloat(iddata[i].一级真实权重)
-          nodelist["children"].find(function (x) { return x.name == idlist[friid]; })["index"] = frindex
-          nodelist["children"].find(function (x) { return x.name == idlist[friid]; })["base"] = fribas
-          nodelist["children"].find(function (x) { return x.name == idlist[friid]; })["weight"] = friweight
-          nodelist["children"].find(function (x) { return x.name == idlist[friid]; })["reweight"] = frireweight
-        }
-        if (secname != '二级类别' && secname != "") {
-          var secid = namelist[secname] + ""
-          var j = secid[0];
-          var mm = secid[0] + secid[1] + secid[2]
-          var secindex = parseFloat(iddata[i].二级类指数)
-          var secbas = parseFloat(iddata[i].二级基期价格)
-          var secweight = parseFloat(iddata[i].二级调整权重)
-          var secreweight = parseFloat(iddata[i].二级真实权重)
-          nodelist["children"].find(function (x) { return x.name == idlist[j]; })["children"].find(function (x) { return x.name == idlist[mm]; })["index"] = secindex
-          nodelist["children"].find(function (x) { return x.name == idlist[j]; })["children"].find(function (x) { return x.name == idlist[mm]; })["base"] = secbas
-          nodelist["children"].find(function (x) { return x.name == idlist[j]; })["children"].find(function (x) { return x.name == idlist[mm]; })["weight"] = secweight
-          nodelist["children"].find(function (x) { return x.name == idlist[j]; })["children"].find(function (x) { return x.name == idlist[mm]; })["reweight"] = secreweight
-        }
-        var thrid = namelist[thrname] + '';
-        var j = thrid[0];
-        var mm = thrid[0] + thrid[1] + thrid[2]
-        var thrindex = parseFloat(iddata[i].三级类指数)
-        var thrbas = parseFloat(iddata[i].基期价格)
-        var thrweight = parseFloat(iddata[i].三级调整权重)
-        var thrreweight = parseFloat(iddata[i].三级真实权重)
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].find(function (x) { return x.name == idlist[thrid]; })["index"] = thrindex
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].find(function (x) { return x.name == idlist[thrid]; })["base"] = thrbas
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].find(function (x) { return x.name == idlist[thrid]; })["weight"] = thrweight
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].find(function (x) { return x.name == idlist[thrid]; })["reweight"] = thrreweight
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].find(function (x) { return x.name == idlist[thrid]; })["price"] = parseFloat(iddata[i].平均价格)
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].find(function (x) { return x.name == idlist[thrid]; })["basesalel"] = parseFloat(iddata[i].基期销售量)
-        nodelist["children"].find(function (x) { return x.name == idlist[j[0]]; })["children"].find(function (x) { return x.name == idlist[mm]; })["children"].find(function (x) { return x.name == idlist[thrid]; })["basesalee"] = parseFloat(iddata[i].基期销售额)
-      }
-    }
-    nodelist.name = "tea叶"
-    treelist[te] = nodelist;
-    GLOBAL_DATA = treelist;
-
+   pro(iddata,date1,"2018-3-1", "name", "dataname", "datavalue", 0);
+console.log(GLOBAL_DATA)
     var dall = []
     for (i in GLOBAL_DATA) {
       var x = 0;
