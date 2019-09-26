@@ -13,6 +13,7 @@ dom = document.getElementById("uprightbody");
 var myChart1 = echarts.init(dom);
 var app = {};
 
+
 function randomsort(a, b) {
   return Math.random()>.5 ? -1 : 1;
 }
@@ -91,6 +92,7 @@ myChart1.on('legendselectchanged', function (obj) {
     var temo = {}
     temo['drawname'] = drawname;
     temo['selected'] = selected;
+    console.log(selected)
     OPERATING_HISTORY.push(temo)
     // 使用 legendToggleSelect Action 会重新触发 legendselectchanged Event，导致本函数重复运行
     // 使得 无 selected 对象
@@ -148,6 +150,13 @@ listd.addEventListener('click', function (event) {
     type: 'legendUnSelect',       //选中图例。
     name: CLICK_NAM // 图例名称
   });
+  var selected = {}
+  selected[CLICK_NAM]=true
+  var temo = {}
+  temo['drawname'] = DRAWNAME;
+  temo['selected'] = selected;
+  OPERATING_HISTORY.push(temo)
+
   menu.style.display = "none";
 }, false);
 //select
@@ -161,6 +170,13 @@ lists.addEventListener('click', function (event) {
     type: 'downplay',       //选中图例。
     name: CLICK_NAM // 图例名称
   });
+
+  // var selected = {}
+  // selected[nam]=true
+  var temo = {}
+  temo['drawname'] = CLICK_NAM;
+  temo['selected'] = {}
+  OPERATING_HISTORY.push(temo)
 
   menu.style.display = "none";
 }, false);
@@ -189,10 +205,22 @@ myChart1.getZr().on('click', function (params) {
       iid = op.id + nu;
     }
     var nam = IDLIST[iid]
+    // console.log(nam)
     myChart1.dispatchAction({
       type: 'legendUnSelect',       //选中图例。
       name: nam // 图例名称
     });
+    var selected = {}
+    for(i in myChart1._chartsMap){
+      var nm = myChart1._chartsMap[i].__model.name
+      selected[nm] = myChart1._chartsMap[i].__alive
+    }
+    selected[nam]=true
+    console.log(selected)
+    var temo = {}
+    temo['drawname'] = DRAWNAME;
+    temo['selected'] = selected;
+    OPERATING_HISTORY.push(temo)
   }
 });
 //图上点击
@@ -220,6 +248,12 @@ myChart1.getZr().on('click', function (params) {
       type: 'legendUnSelect',       //选中图例。
       name: nam // 图例名称
     });
+    var selected = {}
+    selected[nam]=true
+    var temo = {}
+    temo['drawname'] = DRAWNAME;
+    temo['selected'] = selected;
+    OPERATING_HISTORY.push(temo)
   }
 });
 //改变图标
@@ -242,6 +276,12 @@ myChart1.on('click', function (params) {
     type: 'legendUnSelect',       //选中图例。
     name: params.seriesName // 图例名称
   });
+  var selected = {}
+  selected[nam]=true
+  var temo = {}
+  temo['drawname'] = DRAWNAME;
+  temo['selected'] = selected;
+  OPERATING_HISTORY.push(temo)
 })
 
 //#region tooltip
@@ -322,19 +362,19 @@ option = {
 
           var peek = OPERATING_REDO.peek()
           OPERATING_HISTORY.push(peek)
-          drawstack(peek.drawname, GLOBAL_DATA, '2018-3-1', '2018-4-20', NAMELIST, IDLIST)
-          console.log(peek.selected)
+          if(peek.drawname!=DRAWNAME){
+                      drawstack(peek.drawname, GLOBAL_DATA, '2018-3-1', '2018-4-20', NAMELIST, IDLIST)
+          }
           for (i in peek.selected) {
-            console.log(peek.selected[i])
-            if (peek.selected[i] == true) {
+            if (peek.selected[i] == false) {
               myChart1.dispatchAction({
-                type: 'legendSelect',       //选中图例。
+                type: 'legendUnSelect',       //选中图例。
                 name: i // 图例名称
               });
             }
-            else {
+            else if(peek.selected[i] == true){
               myChart1.dispatchAction({
-                type: 'legendUnSelect',       //选中图例。
+                type: 'legendSelect',       //选中图例。
                 name: i // 图例名称
               });
             }
@@ -350,10 +390,10 @@ option = {
         onclick: function (d) {
           var peek = OPERATING_HISTORY.peek()
           OPERATING_REDO.push(peek)
-          drawstack(peek.drawname, GLOBAL_DATA, '2018-3-1', '2018-4-20', NAMELIST, IDLIST)
-          console.log(peek.selected)
+          if(peek.drawname!=DRAWNAME){
+            drawstack(peek.drawname, GLOBAL_DATA, '2018-3-1', '2018-4-20', NAMELIST, IDLIST)
+          }
           for (i in peek.selected) {
-            console.log(peek.selected[i])
             if (peek.selected[i] == true) {
               myChart1.dispatchAction({
                 type: 'legendSelect',       //选中图例。
@@ -434,6 +474,7 @@ option = {
   series: []
 };
 function drawstack(name, list, dayleft, dayright, namelist, idlist) {
+  DRAWNAME = name
   var dl;
   var dr;
   var oDate1 = new Date(dayleft);
@@ -504,7 +545,10 @@ function drawstack(name, list, dayleft, dayright, namelist, idlist) {
 
     }
   }
-  else if (id.length == 3) {
+  else if (id.length == 3 || id.length == 5) {
+    if(id.length==5){
+      id=id[0]+id[1]+id[2]
+    }
     for (i in list1) {
       if (jage.includes(i) == true) {
         var tee = list1[i]['children'].find(function (x) { return x.name == idlist[id[0]] })['children'].find(function (x) { return x.name == idlist[id] })['children']
@@ -560,7 +604,6 @@ d3.csv("data/number.csv", function (namedata) {
     IDLIST = idlist
     NAMELIST = namelist
    pro(iddata,date1,"2018-3-1", "name", "dataname", "datavalue", 0);
-console.log(GLOBAL_DATA)
     var dall = []
     for (i in GLOBAL_DATA) {
       var x = 0;

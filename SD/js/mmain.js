@@ -678,7 +678,6 @@ d3.csv("data/number.csv", function (Name_data) {
                 }
                 document.querySelector('.ud').addEventListener('change', e => {
                         for (let entry of e.target.files) {
-                                console.log(entry.name, entry.webkitRelativePath);
                         }
                 });
 
@@ -863,7 +862,6 @@ d3.csv("data/number.csv", function (Name_data) {
 
                         })
 
-                        console.log(DATAALL)
                         $.fn.zTree.init($("#tree"), setting, zTreeNodes);
                         var tree = document.getElementById("tree");
                         tree.style.overflow = "visible";

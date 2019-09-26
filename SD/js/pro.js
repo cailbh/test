@@ -300,8 +300,8 @@ else{
                 var frireweight = parseFloat(fir[i][id[0]].relweight)
                 nodelist["children"].find(function (x) { return x.name == IDLIST[friid]; })["index"] = 100 * frindex
                 nodelist["children"].find(function (x) { return x.name == IDLIST[friid]; })["base"] = fribas
-                nodelist["children"].find(function (x) { return x.name == IDLIST[friid]; })["weight"] = 100*friweight
-                nodelist["children"].find(function (x) { return x.name == IDLIST[friid]; })["reweight"] = 100*frireweight
+                nodelist["children"].find(function (x) { return x.name == IDLIST[friid]; })["weight"] = friweight
+                nodelist["children"].find(function (x) { return x.name == IDLIST[friid]; })["reweight"] = frireweight
             }
             if (secname != '二级类别' && secname != "") {
                 var secid = NAMELIST[secname] + ""
@@ -313,8 +313,8 @@ else{
                 var secreweight = parseFloat(sec[i][ids].relweight)
                 nodelist["children"].find(function (x) { return x.name == IDLIST[idf]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["index"] = 100 * secindex
                 nodelist["children"].find(function (x) { return x.name == IDLIST[idf]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["base"] = secbas
-                nodelist["children"].find(function (x) { return x.name == IDLIST[idf]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["weight"] = 100*secweight
-                nodelist["children"].find(function (x) { return x.name == IDLIST[idf]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["reweight"] = 100*secreweight
+                nodelist["children"].find(function (x) { return x.name == IDLIST[idf]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["weight"] = secweight
+                nodelist["children"].find(function (x) { return x.name == IDLIST[idf]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["reweight"] = secreweight
             }
             var thrid = NAMELIST[thrname] + '';
             var idf = thrid[0];
@@ -325,8 +325,8 @@ else{
             var thrreweight = parseFloat(dt[i][j].relweight)
             nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["index"] = 100 * thrindex
             nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["base"] = thrbas
-            nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["weight"] = 100*thrweight
-            nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["reweight"] = 100*thrreweight
+            nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["weight"] = thrweight
+            nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["reweight"] = thrreweight
             nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["price"] = parseFloat(dt[i][j].price)
             nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["basesalel"] = parseFloat(dt[i][j].basesalel)
             nodelist["children"].find(function (x) { return x.name == IDLIST[idf[0]]; })["children"].find(function (x) { return x.name == IDLIST[mm]; })["children"].find(function (x) { return x.name == IDLIST[thrid]; })["basesalee"] = parseFloat(dt[i][j].basesalee)
@@ -339,5 +339,4 @@ else{
         nodelist = JSON.parse(JSON.stringify(nodelistc))
     }
     GLOBAL_DATA = treelist
-    console.log(GLOBAL_DATA);
 }

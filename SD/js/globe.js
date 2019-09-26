@@ -53,3 +53,4 @@ function length() {
 var OPERATING_HISTORY = new STACK();
 var OPERATING_REDO = new STACK();
 var CLICK_NAM
+var DRAWNAME

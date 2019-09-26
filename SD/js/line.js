@@ -63,7 +63,6 @@ var drawLineGraph = function(containerHeight, containerWidth, data, yLabel, warn
         .datum(data)
         .attr('class', 'area')
         .attr('d', area);
-        console.log(data);
     g.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0, ' + height + ')')

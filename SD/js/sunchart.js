@@ -60,7 +60,7 @@ option1 = {
       // 
       center: ['50%', '50%'],
       type: 'sunburst',
-      radius: [0, '50%'],
+      radius: [0, '49%'],
       minAngle: 7,
       label: {
         rotate: 'radial',
@@ -70,61 +70,63 @@ option1 = {
       itemStyle: {
         borderColor: "white",
         borderWidth: 2,
+        shadowBlur: 8,
+        shadowColor: mcolor[3],
         // color: "rgb(245,208,190)",
         //  color: "transparent"
       },
-      levels: [{}, {
-        r0: '5%',
-        r: "20%",
-        itemStyle: {
-          //  emphasis: true,
-          shadowBlur: 7,
-          shadowColor: mcolor[3],
-          // color: "rgb(245,208,190)",
-        },
-        label: {
-          rotate: "radial",
-          textShadowBlur: 5,
-          textShadowColor: '#000',
-          // opacity: 0
-        }
-      }, {
-        r0: "20%",
-        r: "35%",
-        itemStyle: {
-          shadowBlur: 10,
-          shadowColor: mcolor[3],
-          // color: "rgb(245,208,190)",
-          // color: 'transparent'
-        },
-        label: {
-          rotate: 'radial',
-          // fontSize: 10,
-          textShadowBlur: 5,
-          textShadowColor: '#000',
-          // opacity: 0
-          // color: bgColor
-        }
-      }, {
-        r0: "35%",
-        r: "45%",
-        itemStyle: {
-          shadowBlur: 80,
-          shadowColor: mcolor[0],
-          // color: colors[3],
-        },
-        label: {
-          position: 'outside',
-          textShadowBlur: 5,
-          textShadowColor: '#000',
-          // opacity: 0
-        },
-        downplay: {
-          label: {
-            opacity: 0
-          }
-        }
-      }]
+      // levels: [{}, {
+      //   r0: '5%',
+      //   r: "20%",
+      //   itemStyle: {
+      //     //  emphasis: true,
+      //     shadowBlur: 7,
+      //     shadowColor: mcolor[3],
+      //     // color: "rgb(245,208,190)",
+      //   },
+      //   label: {
+      //     rotate: "radial",
+      //     textShadowBlur: 5,
+      //     textShadowColor: '#000',
+      //     // opacity: 0
+      //   }
+      // }, {
+      //   r0: "20%",
+      //   r: "35%",
+      //   itemStyle: {
+      //     shadowBlur: 10,
+      //     shadowColor: mcolor[3],
+      //     // color: "rgb(245,208,190)",
+      //     // color: 'transparent'
+      //   },
+      //   label: {
+      //     rotate: 'radial',
+      //     // fontSize: 10,
+      //     textShadowBlur: 5,
+      //     textShadowColor: '#000',
+      //     // opacity: 0
+      //     // color: bgColor
+      //   }
+      // }, {
+      //   r0: "35%",
+      //   r: "45%",
+      //   itemStyle: {
+      //     shadowBlur: 80,
+      //     shadowColor: mcolor[0],
+      //     // color: colors[3],
+      //   },
+      //   label: {
+      //     position: 'outside',
+      //     textShadowBlur: 5,
+      //     textShadowColor: '#000',
+      //     // opacity: 0
+      //   },
+      //   downplay: {
+      //     label: {
+      //       opacity: 0
+      //     }
+      //   }
+      // }]
     },
     {
       type: 'pie',
@@ -161,7 +163,7 @@ function drawsun(name, list, day, namelist, idlist) {
           list1[i]["children"]
             .find(function (x) { return x.name == idlist[fid[0]]; })["children"]
             .find(function (x) { return x.name == idlist[tid]; })["children"]
-            .find(function (x) { return x.name == idlist[fid]; })["value"] = (parseFloat(vv) / 100) * (parseFloat(ww) / 100) * (parseFloat(xx))
+            .find(function (x) { return x.name == idlist[fid]; })["value"] = (parseFloat(vv)) * (parseFloat(ww)) * (parseFloat(xx)) * 100
         }
         else {
           list1[i]["children"]
@@ -179,7 +181,7 @@ function drawsun(name, list, day, namelist, idlist) {
         if (vv != '') {
           list1[i]["children"]
             .find(function (x) { return x.name == idlist[fid[0]]; })["children"]
-            .find(function (x) { return x.name == idlist[tid]; })["value"] = (parseFloat(vv) / 100) * (parseFloat(xx))
+            .find(function (x) { return x.name == idlist[tid]; })["value"] = (parseFloat(vv)) * (parseFloat(xx)) * 100
         }
         else {
           list1[i]["children"]
@@ -192,7 +194,7 @@ function drawsun(name, list, day, namelist, idlist) {
           .find(function (x) { return x.name == idlist[fid[0]]; })["reweight"]
         if (vv != '') {
           list1[i]["children"]
-            .find(function (x) { return x.name == idlist[fid[0]]; })["value"] = parseFloat(vv)
+            .find(function (x) { return x.name == idlist[fid[0]]; })["value"] = parseFloat(vv) * 100
         }
         else {
           list1[i]["children"]
