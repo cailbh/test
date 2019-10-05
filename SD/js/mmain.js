@@ -583,9 +583,9 @@ d3.csv("data/number.csv", function (Name_data) {
                 }
                 function bgcolor(text){
                         var color = d3.interpolate('#ccff90', '#00e676');		//颜色插值函数
-                        var linear = d3.scale.linear()
-                .domain([0, 1])
-                .range([0, 1]);
+                //         var linear = d3.scale.linear()
+                // .domain([0, 1])
+                // .range([0, 1]);
                 var indall=0,weiall=0,baselall=0,baseeall=0,basall=0,priall=0;
                         for(i=0;i<CH;i++){
                                 if (text == '指数') {

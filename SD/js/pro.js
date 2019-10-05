@@ -4,6 +4,7 @@ function pro(initialdata, dayli, selday, name, dataname, datavalue, aa) {
     // var dataname = '平均价格'
     // var datavalue = 33000000;
     // // console.log(initialdata)
+    console.log(initialdata)
     var edaname = ''
     if (dataname == '基期销售额') {
         edaname = 'basesalee'
@@ -19,12 +20,16 @@ function pro(initialdata, dayli, selday, name, dataname, datavalue, aa) {
     var sday = dayli.indexOf(selday)
     dt[day] = [];
     for (i in initialdata) {
+        if(initialdata[i].一级权重 == null){
+            break;
+        }
         if (initialdata[i].一级权重 == '一级权重') {
             day++; dt[day] = []
             continue;
         }
         var temo = {}
         temo["name"] = initialdata[i].三级类别
+
         temo['id'] = NAMELIST[temo['name']]
         temo['basesalee'] = parseFloat(initialdata[i].基期销售额)
         temo['basesalel'] = parseFloat(initialdata[i].基期销售量)
@@ -51,9 +56,9 @@ function pro(initialdata, dayli, selday, name, dataname, datavalue, aa) {
         var ta = {};
         var sumsalee = 0;
         for (j in dt[i]) {
-            var id = dt[i][j].id
-            var ids = id[0] + id[1] + id[2];
-            var idf = id[0]
+            var idd = dt[i][j]['id']
+            var ids = idd[0] + idd[1] + idd[2];
+            var idf = idd[0]
             if (se[ids] == undefined) {
                 se[ids] = {}
                 se[ids]['basesalee'] = 0
