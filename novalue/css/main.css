@@ -1,0 +1,72 @@
+
+html{
+    background-color: rgb(255, 255, 255);
+    height: 100%;
+    width: 100%;
+}
+body{
+    height: 100%;
+    width: 100%;
+}
+#network0{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network1{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network2{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network3{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network4{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network5{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network6{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network7{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#network8{
+    float: left;
+    height: 80%;
+    width: 80%;
+}
+#kde{
+    float: left;
+    height: 50%;
+    width: 30%;
+    background-color:white;
+}
+#sam_network{
+    float: left;
+    height: 50%;
+    width: 30%;
+}
+#sam_kde{
+    float: left;
+    height: 50%;
+    width: 30%;
+    background-color:white;
+}
