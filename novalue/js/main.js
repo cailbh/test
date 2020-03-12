@@ -1,7 +1,7 @@
 const FILE_name = "ba"
 const file_nameli =['WW','SSB','fpp','er','CH','ba'] 
 name_CHN = {
-    "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
+   "SP-small":"平均最短路径", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
     "LCC": "局部群聚系数", "GCC": "全局聚集系数", "DDC": "度分布相似性", "SP": "平均最短路径", "ANB_G": "中介中心性改"
 }
 s_name_li = {
@@ -20,14 +20,80 @@ var mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,
     'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
     'rgb(168,168,255)',];
 
-
+d3.csv("data/CCtj.csv",function(a){
+    console.log(a)
+    drawbar("network0",a)
+})
+function drawbar(win_name,da_li){
+    console.log(da_li)
+    da = []
+    sfn = { 'rate-5': 0, 'rate-10': 1, 'rate-15': 2, 'rate-20': 3, 'rate-25': 4, 'rate-30': 5, 'rate-35': 6 ,'rate-40':7}
+    dat = [[], [], [], [], [], [], [],[]]
+    // {
+    //     name: 'Forest',
+    //     type: 'bar',
+    //     barGap: 0,
+    //     label: labelOption,
+    //     data: [320, 332, 301, 334, 390]
+    // },
+    
+    for(i = 0;i<da_li.length;i++){
+        if(i!=0){
+        dat[sfn[da_li[i]['rate']]].push(parseFloat(da_li[i]['zz']))
+        }
+       
+    }
+    for(i in dat){
+        da.push({
+            
+        // name: "1",
+        type: 'bar',
+        barGap: 0,
+        data: dat[i]
+        })
+        console.log(dat[i])
+    }
+    console.log(da)
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data:["our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ["our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: da
+    };
+    var myChart1 = echarts.init(document.getElementById(win_name));
+    myChart1.clear()
+    myChart1.setOption(option, true, true);
+}
 d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1) {
     d3.csv("data/" + file_nameli[1] + "/" + file_nameli[1] + "pm.csv", function (f2) {
         d3.csv("data/" + file_nameli[2] + "/" + file_nameli[2] + "pm.csv", function (f3) {
             d3.csv("data/" + file_nameli[3] + "/" + file_nameli[3] + "pm.csv", function (f4) {
                 d3.csv("data/" + file_nameli[4] + "/" + file_nameli[4] + "pm.csv", function (f5) {
                     d3.csv("data/" + file_nameli[5] + "/" + file_nameli[5] + "pm.csv", function (f6) {
-                        data_li = [f1, f2, f3, f4, f5, f6]
+                        data_li = [f1, f2, f3, f4, f5]
                         
                         sfn = { 'our': 0, 'SRW': 1, 'ISRW': 2, 'RJ': 3, 'RNS': 4, 'RES': 5, 'TIES': 6 }
                         dat = [[], [], [], [], [], [], []]
@@ -46,21 +112,20 @@ d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1)
                         //         }
                         //     }
                         // }
-                        console.log(data_li)
-                        sflin = s_name_li3[9]
+                        sflin = s_name_li3[7]
                         for(i=0;i<data_li.length;i++){
                             for(j=0;j<data_li[i].length;j++){
-                                console.log(data_li[i][j]);
                                 
-                                if ((sflin == "ANB_G") || (sflin == "SCS")) {
+                                // if ((sflin == "ANB_G") || (sflin == "SCS")) {
                                     dat[sfn[data_li[i][j]['ori']]].push(data_li[i][j][sflin])
-                                }
-                                else {
-                                    dat[sfn[data_li[i][j]['ori']]].push(8 - (data_li[i][j][sflin]))
-                                }
+                                // }
+                                // else {
+                                    // dat[sfn[data_li[i][j]['ori']]].push(8 - (data_li[i][j][sflin]))
+                                // }
                             }
                         }
-                        drawbox("network0", dat)
+                        //  drawbar("network0",data_li)
+                        // drawbox("network0", dat,name_CHN[sflin])
                     })
                 })
             })
@@ -68,7 +133,7 @@ d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1)
     })
 })
 
-function drawbox(win_name,data){
+function drawbox(win_name,data,textname){
     mytextStyle = {
         color: "#333",                           //文字颜色
         fontStyle: "normal",                     //italic斜体  oblique倾斜
@@ -78,16 +143,39 @@ function drawbox(win_name,data){
     }     
 
    
-    // console.log(da)
+    console.log(data)
     var data = echarts.dataTool.prepareBoxplotData(data);
     var myChart = echarts.init(document.getElementById(win_name));
+    j=0
+    dd = []
+    mm = []
+    for(i in data["boxData"]){
+        j++
+        dd.push({
+            value:data['boxData'][i],
+            itemStyle:{
+                borderColor: mcolor[j]
+           }
+        })
+    }
+    console.log(data.outliers)
+    for(i in data["outliers"]){
+        mm.push({
+            value:data['outliers'][i],
+            itemStyle:{
+                color:mcolor[data.outliers[i][0]+1],
+                borderColor: mcolor[j]
+           }
+        })
+    }
+    console.log(dd,mm)
     option = {
         title: [
           {
-            text: "排名",
+            text: textname,
             left: 'center',
             textStyle: {
-              fontSize: 20,
+              fontSize: 40,
               color: 'black',
             },
           },
@@ -200,11 +288,11 @@ function drawbox(win_name,data){
           {
             name: 'boxplot',
             type: 'boxplot',
-            data: data.boxData,
+            data: dd,
             itemStyle: { //盒须图样式。
-              color: '#48C6D4', //boxplot图形的颜色。 默认从全局调色盘 option.color 获取颜色
-              borderColor: 'rgb(18, 133, 240)', //boxplot图形的描边颜色。支持的颜色格式同 color，不支持回调函数。
-              borderWidth: "2.5"
+            //   color: '#48C6D4', //boxplot图形的颜色。 默认从全局调色盘 option.color 获取颜色
+            //   borderColor: 'rgb(18, 133, 240)', //boxplot图形的描边颜色。支持的颜色格式同 color，不支持回调函数。
+              borderWidth: "6.5"
             },
             tooltip: {
               formatter: function (param) {
@@ -222,10 +310,10 @@ function drawbox(win_name,data){
           {
             name: 'outlier',
             type: 'scatter',
-            data: data.outliers,
+            data: mm,
             itemStyle: {
-              color: 'rgb(18, 133, 240)',
-              borderColor: '#48C6D4',
+            //   color: 'rgb(18, 133, 240)',
+            //   borderColor: '#48C6D4',
               borderWidth: "1"
             },
           }
@@ -377,11 +465,11 @@ namelist = ["ori", "our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES", "BFS", "DFS
 //                                         da_li.push(tm)
 //                                     }
 
-//                                     drawline("network" + k, da_li, sf_na, sf_chn_na)
+//                                     // drawline("network" + k, da_li, sf_na, sf_chn_na)
 //                                 // }
 
 //                             // }
-                            
+//                             // drawbar("network0",data_li)
                             
 //                         });
 //                         });
@@ -524,41 +612,6 @@ function drawline(win_name, da_li, sf_na, sf_chn_na, sam_name, sam_rate) {
         series: da_li
     };
 
-    var myChart1 = echarts.init(document.getElementById(win_name));
-    myChart1.clear()
-    myChart1.setOption(option, true, true);
-}
-
-function drawbar(win_name,da_li){
-    option = {
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            }
-        },
-        legend: {
-            data:["our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES", "BFS", "DFS"]
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis: [
-            {
-                type: 'category',
-                data: ['5%', '10%', '15%', '20%', '25%', '30%', '35%', '40%']
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value'
-            }
-        ],
-        series: da_li
-    };
     var myChart1 = echarts.init(document.getElementById(win_name));
     myChart1.clear()
     myChart1.setOption(option, true, true);
