@@ -1,7 +1,7 @@
 const FILE_name = "ba"
 const file_nameli =['WW','SSB','fpp','er','CH','ba'] 
 name_CHN = {
-   "SP-small":"平均最短路径", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
+   "SP-small":"平均最短路径(大小)", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
     "LCC": "局部群聚系数", "GCC": "全局聚集系数", "DDC": "度分布相似性", "SP": "平均最短路径", "ANB_G": "中介中心性改"
 }
 s_name_li = {
@@ -20,9 +20,14 @@ var mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,
     'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
     'rgb(168,168,255)',];
 
+var mcolor2 = ['rgb(49,27,146)','rgb(57,73,171)', 'rgb(30,136,229)', 'rgb(3,169,244)','rgb(129,212,250)',
+    'rgb(79,195,247)', 'rgb(0,172,193)','rgb(0,151,167)', 'rgb(0,96,100)',
+    'rgb(0,77,65)',];
+
+
 d3.csv("data/CCtj.csv",function(a){
     console.log(a)
-    drawbar("network0",a)
+    // drawbar("network0",a)
 })
 function drawbar(win_name,da_li){
     console.log(da_li)
@@ -46,10 +51,11 @@ function drawbar(win_name,da_li){
     for(i in dat){
         da.push({
             
-        // name: "1",
+        name: ""+(((i)*5)+5)+"%",
         type: 'bar',
-        barGap: 0,
-        data: dat[i]
+        barGap: "30%",
+        data: dat[i],
+        color:mcolor2[i]
         })
         console.log(dat[i])
     }
@@ -62,25 +68,105 @@ function drawbar(win_name,da_li){
             }
         },
         legend: {
-            data:["our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
+            show:true,
+            data:[ '5%' ,'10%', '15%', '20%', '25%', '30%', '35%','40%'],
+            bottom: "25%",
+            // x: "left",
+            left:"17%",
+            padding: 15,                                   //图例内边距，单位px  5  [5, 10]  [5,10,5,10]
+            itemGap: 20,
+            // orient: 'vertical',  //垂直显示
+            align: "left",
+            itemWidth: 35,                               //图例标记的图形宽度
+            itemHeight: 34,
+            textStyle: mytextStyle
         },
         grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
+            left: '10%',
+            right: '15%',
+            bottom: '35%',
+            top: "15%",
             containLabel: true
         },
-        xAxis: [
-            {
-                type: 'category',
-                data: ["our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
+        toolbox: {
+            feature: {
+                saveAsImage: {}
             }
-        ],
-        yAxis: [
-            {
-                type: 'value'
-            }
-        ],
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            position:'top',
+            data:["our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"],
+            boundaryGap: true,
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    type: "dotted",               //坐标轴线线的类型，solid，dashed，dotted
+                    width: 3,                     //坐标轴线线宽
+                    color: "#000",
+                    opacity: 0.45,
+                }
+            },
+            axisLine: {
+                onZero: false,
+                show:false,
+                lineStyle: {
+                    type: "solid",               //坐标轴线线的类型，solid，dashed，dotted
+                    color: "#000",
+                    width: 6,                     //坐标轴线线宽
+                    opacity: 1,
+                }
+            },
+            axisLabel: {
+                show: true,
+                textStyle:  {
+                    color: "#333",                           //文字颜色
+                    fontStyle: "normal",                     //italic斜体  oblique倾斜
+                    fontWeight: "bolder",                    //文字粗细bold   bolder   lighter  100 | 200 | 300 | 400...
+                    fontFamily: "sans-serif",                //字体系列
+                    fontSize: 40,
+                }     ,
+            },
+        },
+        yAxis: {
+            type: 'value',
+            gridIndex: 0,
+            splitNumber: 5,
+            scale:true,
+            // name:"%",
+            nameTextStyle: {
+                fontSize :"40",
+                verticalAlign:"bottom"}
+                ,
+            // min: 1, max: 180,
+            // logBase:3,
+            // interval:[1,6,10,180],
+            splitLine: {
+                show: false,
+                lineStyle: {
+                    type: "dotted",               //坐标轴线线的类型，solid，dashed，dotted
+                    width: 3,                     //坐标轴线线宽
+                    color: "#000",
+                    opacity: 0.45,
+                }
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle: {
+                    type: "solid",               //坐标轴线线的类型，solid，dashed，dotted
+                    color: "#000",
+                    width: 7,                     //坐标轴线线宽
+                    opacity: 1,
+                }
+            },
+            axisLabel: {
+                
+            formatter:'{value}%',
+                show: true,
+                textStyle: mytextStyle,
+            },
+        },
         series: da
     };
     var myChart1 = echarts.init(document.getElementById(win_name));
@@ -112,7 +198,7 @@ d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1)
                         //         }
                         //     }
                         // }
-                        sflin = s_name_li3[7]
+                        sflin = s_name_li3[4]
                         for(i=0;i<data_li.length;i++){
                             for(j=0;j<data_li[i].length;j++){
                                 
@@ -125,14 +211,20 @@ d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1)
                             }
                         }
                         //  drawbar("network0",data_li)
-                        // drawbox("network0", dat,name_CHN[sflin])
+                        drawbox("network0", dat,name_CHN[sflin])
                     })
                 })
             })
         })
     })
 })
-
+   mytextStyle = {
+        color: "#333",                           //文字颜色
+        fontStyle: "normal",                     //italic斜体  oblique倾斜
+        fontWeight: "normal",                    //文字粗细bold   bolder   lighter  100 | 200 | 300 | 400...
+        fontFamily: "sans-serif",                //字体系列
+        fontSize: 40,
+    }     
 function drawbox(win_name,data,textname){
     mytextStyle = {
         color: "#333",                           //文字颜色
@@ -180,6 +272,20 @@ function drawbox(win_name,data,textname){
             },
           },
         ],
+        legend: {
+            show:true,
+            data:[ '5%' ,'10%', '15%', '20%', '25%', '30%', '35%','40%'],
+            bottom: "25%",
+            // x: "left",
+            left:"17%",
+            padding: 15,                                   //图例内边距，单位px  5  [5, 10]  [5,10,5,10]
+            itemGap: 20,
+            // orient: 'vertical',  //垂直显示
+            align: "left",
+            itemWidth: 35,                               //图例标记的图形宽度
+            itemHeight: 34,
+            textStyle: mytextStyle
+        },
         tooltip: {
           trigger: 'item',
           axisPointer: {
@@ -187,12 +293,14 @@ function drawbox(win_name,data,textname){
           }
         },
         grid: {
+            top:"20%",
           left: '10%',
           right: '10%',
           bottom: '15%'
         },
         xAxis: {
           type: 'category',
+          position:'top',
           data: ['our','SRW','ISRW','RJ','RNS','RES','TIES'],
           boundaryGap: true,
           nameGap: 30,
@@ -207,6 +315,7 @@ function drawbox(win_name,data,textname){
             }
         },
         axisLine: {
+            show:false,
             onZero: false,
             lineStyle: {
                 type: "solid",               //坐标轴线线的类型，solid，dashed，dotted
@@ -254,7 +363,7 @@ function drawbox(win_name,data,textname){
         },
         yAxis: {
           type: 'value',
-          name: 'rank',
+        //   name: 'rank',
           splitArea: { //坐标轴在 grid 区域中的分隔区域，默认不显示。
             // 			show: true
           },
