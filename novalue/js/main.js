@@ -25,10 +25,10 @@ var mcolor2 = ['rgb(49,27,146)','rgb(57,73,171)', 'rgb(30,136,229)', 'rgb(3,169,
     'rgb(0,77,65)',];
 
 
-d3.csv("data/CCtj.csv",function(a){
-    console.log(a)
-    // drawbar("network0",a)
-})
+// d3.csv("data/CCtj.csv",function(a){
+//     console.log(a)
+//     // drawbar("network0",a)
+// })
 function drawbar(win_name,da_li){
     console.log(da_li)
     da = []
@@ -77,13 +77,19 @@ function drawbar(win_name,da_li){
             itemGap: 20,
             // orient: 'vertical',  //垂直显示
             align: "left",
-            itemWidth: 35,                               //图例标记的图形宽度
-            itemHeight: 34,
-            textStyle: mytextStyle
+            itemWidth: 30,                               //图例标记的图形宽度
+            itemHeight: 24,
+            textStyle:{
+                color: "#333",                           //文字颜色
+                fontStyle: "normal",                     //italic斜体  oblique倾斜
+                fontWeight: "normal",                    //文字粗细bold   bolder   lighter  100 | 200 | 300 | 400...
+                fontFamily: "sans-serif",                //字体系列
+                fontSize: 30,
+            }     ,
         },
         grid: {
             left: '10%',
-            right: '15%',
+            right: '5%',
             bottom: '35%',
             top: "15%",
             containLabel: true
@@ -97,7 +103,7 @@ function drawbar(win_name,da_li){
             type: 'category',
             boundaryGap: false,
             position:'top',
-            data:["our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"],
+            data:["OUR", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"],
             boundaryGap: true,
             splitLine: {
                 show: true,
@@ -123,7 +129,7 @@ function drawbar(win_name,da_li){
                 textStyle:  {
                     color: "#333",                           //文字颜色
                     fontStyle: "normal",                     //italic斜体  oblique倾斜
-                    fontWeight: "bolder",                    //文字粗细bold   bolder   lighter  100 | 200 | 300 | 400...
+                    fontWeight: "normal",                    //文字粗细bold   bolder   lighter  100 | 200 | 300 | 400...
                     fontFamily: "sans-serif",                //字体系列
                     fontSize: 40,
                 }     ,
@@ -173,51 +179,51 @@ function drawbar(win_name,da_li){
     myChart1.clear()
     myChart1.setOption(option, true, true);
 }
-d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1) {
-    d3.csv("data/" + file_nameli[1] + "/" + file_nameli[1] + "pm.csv", function (f2) {
-        d3.csv("data/" + file_nameli[2] + "/" + file_nameli[2] + "pm.csv", function (f3) {
-            d3.csv("data/" + file_nameli[3] + "/" + file_nameli[3] + "pm.csv", function (f4) {
-                d3.csv("data/" + file_nameli[4] + "/" + file_nameli[4] + "pm.csv", function (f5) {
-                    d3.csv("data/" + file_nameli[5] + "/" + file_nameli[5] + "pm.csv", function (f6) {
-                        data_li = [f1, f2, f3, f4, f5]
+// d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1) {
+//     d3.csv("data/" + file_nameli[1] + "/" + file_nameli[1] + "pm.csv", function (f2) {
+//         d3.csv("data/" + file_nameli[2] + "/" + file_nameli[2] + "pm.csv", function (f3) {
+//             d3.csv("data/" + file_nameli[3] + "/" + file_nameli[3] + "pm.csv", function (f4) {
+//                 d3.csv("data/" + file_nameli[4] + "/" + file_nameli[4] + "pm.csv", function (f5) {
+//                     d3.csv("data/" + file_nameli[5] + "/" + file_nameli[5] + "pm.csv", function (f6) {
+//                         data_li = [f1, f2, f3, f4, f5]
                         
-                        sfn = { 'our': 0, 'SRW': 1, 'ISRW': 2, 'RJ': 3, 'RNS': 4, 'RES': 5, 'TIES': 6 }
-                        dat = [[], [], [], [], [], [], []]
-                        // var data = f1
-                        // for (i = 0; i < data.length; i++) {
-                        //     // console.log(data[i])
-                        //     for (x in s_name_li3) {
-                        //         if (s_name_li3[x] == "ANB") {
-                        //             console.log(1)
-                        //         }
-                        //         else if ((s_name_li3[x] == "ANB_G") || (s_name_li3[x] == "SCS")) {
-                        //             dat[sfn[data[i]['ori']]].push(data[i][s_name_li3[x]])
-                        //         }
-                        //         else {
-                        //             dat[sfn[data[i]['ori']]].push(8 - (data[i][s_name_li3[x]]))
-                        //         }
-                        //     }
-                        // }
-                        sflin = s_name_li3[4]
-                        for(i=0;i<data_li.length;i++){
-                            for(j=0;j<data_li[i].length;j++){
+//                         sfn = { 'OUR': 0, 'SRW': 1, 'ISRW': 2, 'RJ': 3, 'RNS': 4, 'RES': 5, 'TIES': 6 }
+//                         dat = [[], [], [], [], [], [], []]
+//                         // var data = f1
+//                         // for (i = 0; i < data.length; i++) {
+//                         //     // console.log(data[i])
+//                         //     for (x in s_name_li3) {
+//                         //         if (s_name_li3[x] == "ANB") {
+//                         //             console.log(1)
+//                         //         }
+//                         //         else if ((s_name_li3[x] == "ANB_G") || (s_name_li3[x] == "SCS")) {
+//                         //             dat[sfn[data[i]['ori']]].push(data[i][s_name_li3[x]])
+//                         //         }
+//                         //         else {
+//                         //             dat[sfn[data[i]['ori']]].push(8 - (data[i][s_name_li3[x]]))
+//                         //         }
+//                         //     }
+//                         // }
+//                         sflin = s_name_li3[4]
+//                         for(i=0;i<data_li.length;i++){
+//                             for(j=0;j<data_li[i].length;j++){
                                 
-                                // if ((sflin == "ANB_G") || (sflin == "SCS")) {
-                                    dat[sfn[data_li[i][j]['ori']]].push(data_li[i][j][sflin])
-                                // }
-                                // else {
-                                    // dat[sfn[data_li[i][j]['ori']]].push(8 - (data_li[i][j][sflin]))
-                                // }
-                            }
-                        }
-                        //  drawbar("network0",data_li)
-                        drawbox("network0", dat,name_CHN[sflin])
-                    })
-                })
-            })
-        })
-    })
-})
+//                                 // if ((sflin == "ANB_G") || (sflin == "SCS")) {
+//                                     dat[sfn[data_li[i][j]['ori']]].push(data_li[i][j][sflin])
+//                                 // }
+//                                 // else {
+//                                     // dat[sfn[data_li[i][j]['ori']]].push(8 - (data_li[i][j][sflin]))
+//                                 // }
+//                             }
+//                         }
+//                         //  drawbar("network0",data_li)
+//                         // drawbox("network0", dat,name_CHN[sflin])
+//                     })
+//                 })
+//             })
+//         })
+//     })
+// })
    mytextStyle = {
         color: "#333",                           //文字颜色
         fontStyle: "normal",                     //italic斜体  oblique倾斜
@@ -301,7 +307,7 @@ function drawbox(win_name,data,textname){
         xAxis: {
           type: 'category',
           position:'top',
-          data: ['our','SRW','ISRW','RJ','RNS','RES','TIES'],
+          data: ['OUR','SRW','ISRW','RJ','RNS','RES','TIES'],
           boundaryGap: true,
           nameGap: 30,
 
@@ -455,9 +461,9 @@ function drawbox(win_name,data,textname){
         return Math.pow(Math.E, Math.pow(Math.E, Math.sqrt(x)/10000))/10000
     }
     console.log(qu_log(1),hufu(qu_log(1)))
-namelist = ["ori", "our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES", "BFS", "DFS"]
+namelist = ["ori", "OUR", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES", "BFS", "DFS"]
 // d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[0] + "new_Eva.json", function (ori) {
-//     d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[1] + "new_Eva.json", function (our) {
+//     d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[1] + "new_Eva.json", function (OUR) {
 //         d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[2] + "new_Eva.json", function (SRW) {
 //             d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[3] + "new_Eva.json", function (ISRW) {
 //                 d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[4] + "new_Eva.json", function (RJ) {
@@ -467,7 +473,7 @@ namelist = ["ori", "our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES", "BFS", "DFS
 //                                 d3.json("data/" + FILE_name + "/" + FILE_name + "bar.json", function (bar) {
 //                                         console.log("data/" + FILE_name + "/" + FILE_name + "bar.json",bar)
 //                                     rate_li = ['5', '10', '15', '20', '25', '30', '35','40']
-//                                 data_li = [ori, our, SRW, ISRW, RJ, RNS, RES, TIES]
+//                                 data_li = [ori, OUR, SRW, ISRW, RJ, RNS, RES, TIES]
 //                                 da_li = []
 
 //                                 mylineStyle = {
@@ -590,7 +596,27 @@ namelist = ["ori", "our", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES", "BFS", "DFS
 // });
 
 // });
-
+d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[0] + "new_Eva.json", function (ori) {
+    d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[1] + "new_Eva.json", function (OUR) {
+        d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[2] + "new_Eva.json", function (SRW) {
+            d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[3] + "new_Eva.json", function (ISRW) {
+                d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[4] + "new_Eva.json", function (RJ) {
+                    d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[5] + "new_Eva.json", function (RNS) {
+                        d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[6] + "new_Eva.json", function (RES) {
+                            d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[7] + "new_Eva.json", function (TIES) {
+                                d3.json("data/" + FILE_name + "/" + FILE_name + "bar.json", function (bar) {
+                                    data_li = [OUR, SRW, ISRW, RJ, RNS, RES, TIES]
+                                    rate = "5"
+                                    drawleida('network0',data_li,rate)
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    })
+})
 function drawline(win_name, da_li, sf_na, sf_chn_na, sam_name, sam_rate) {
     // console.log(win_name)
     console.log(da_li)
@@ -625,7 +651,7 @@ function drawline(win_name, da_li, sf_na, sf_chn_na, sam_name, sam_rate) {
                     name: 'ori',
                     icon: 'path://M64 512c0-17.673 14.335-32 32.002-32h191.996C305.672 480 320 494.323 320 512c0 17.673-14.335 32-32.002 32H96.002C78.328 544 64 529.677 64 512z m640 0c0-17.673 14.335-32 32.002-32h191.996C945.672 480 960 494.323 960 512c0 17.673-14.335 32-32.002 32H736.002C718.328 544 704 529.677 704 512z m-320 0c0-17.673 14.335-32 32.002-32h191.996C625.672 480 640 494.323 640 512c0 17.673-14.335 32-32.002 32H416.002C398.328 544 384 529.677 384 512z'
                 },
-                { name: 'our', }, { name: 'SRW', }, { name: 'ISRW', }, { name: 'RJ', }, { name: 'RNS', }, { name: 'RES', }, { name: 'TIES', }
+                { name: 'OUR', }, { name: 'SRW', }, { name: 'ISRW', }, { name: 'RJ', }, { name: 'RNS', }, { name: 'RES', }, { name: 'TIES', }
             ],
 
             // right: "10%",   
@@ -725,3 +751,170 @@ function drawline(win_name, da_li, sf_na, sf_chn_na, sam_name, sam_rate) {
     myChart1.clear()
     myChart1.setOption(option, true, true);
 }
+function drawleida(w_n,data_li,rate) {
+     mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
+    'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
+    'rgb(168,168,255)',];
+    maxli = [-100,-100,-100,-100,-100,-100,-100,-100,-100]
+    minli =[ 100, 100, 100, 100, 100, 100, 100, 100, 100]
+    s_name_li = [
+        "SP", "ANB", "ACC", "CC", "QCS",
+        "SCS", "LCC", "GCC", "ANB_G",
+    ]
+    name_CHN = {
+        "SP-small":"平均最短路径(大小)", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
+         "LCC": "局部群聚系数", "GCC": "全局聚集系数", "DDC": "度分布相似性", "SP": "平均最短路径", "ANB_G": "中介中心性改"
+     }
+    mychart =  echarts.init(document.getElementById(w_n));
+    name_li = [ "OUR", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
+    dat = [[], [], [], [], [], [], [],[],[]]
+    for(i=0;i<data_li.length;i++){
+        for(j in data_li[i]){
+            if(rate ==j.substr(5)){
+                for(k=0;k<=8;k++){
+                if(s_name_li[k]=='SCS'){
+                    datmp = data_li[i][j][s_name_li[k]]['sam_av']
+                    // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
+                if(datmp>maxli[k]){
+                    maxli[k] = datmp;
+                }
+
+                dat[i].push(datmp)
+                }
+                else{datmp = data_li[i][j][s_name_li[k]]
+                if(datmp>maxli[k]){
+                    maxli[k] = datmp;
+                }
+if(datmp<minli[k]){
+                    minli[k] = datmp;
+                }
+                dat[i].push(datmp)
+                }}
+                
+            }
+        }
+    }
+    val = []
+    for (j = 0; j < name_li.length; j++){
+        tm = {
+            name: name_li[j],
+            value: dat[j],
+            color:mcolor[j]
+        }
+        val.push(tm)
+    }
+                   
+    console.log(val)
+      pr = [1,2,3,4,5,6]
+     option = {
+        title: {
+            text: '基础雷达图'
+        },
+        tooltip: {},
+        legend: {
+            data: name_li,
+        },
+        radar: {
+            shape: 'circle',
+            polar: {},
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 3,
+                    padding: [3, 5]
+                }
+            },
+            indicator: [
+                            { name: s_name_li[0], max: maxli[0]*1.5},
+                            { name: s_name_li[1], max: maxli[1]*1.5},
+                            { name: s_name_li[2], max: maxli[2]*1.5},
+                            { name: s_name_li[3], max: maxli[3]*1.5},
+                            { name: s_name_li[4], max: maxli[4]*1.5},
+                            { name: s_name_li[5], max: maxli[5]*1.5},
+                            { name: s_name_li[6], max: maxli[6]*1.5},
+                            { name: s_name_li[7], max: maxli[7]*1.5},
+                            { name: s_name_li[8], max: maxli[8]*1.5}
+                        ]
+        },
+        series: [{
+            name: '预算 vs 开销（Budget vs spending）',
+            type: 'radar',
+            // areaStyle: {normal: {}},
+            data: val
+        }]
+    };
+    //   option = {
+    //     title: {
+    //       text: '内部节点分布质量'
+    //     },
+    //     legend: {
+    //       data: ['line']
+    //     },
+    //     // polar: {},
+    //     // tooltip: {
+    //     //   trigger: 'axis',
+    //     //   axisPointer: {
+    //     //     type: 'cross'
+    //     //   },
+    //     //   textStyle: {
+    //     //     fontSize: 12,
+    //     //   },
+    //     //   formatter: '{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}'
+    //     // },
+    //     // angleAxis: {
+    //     //   type: 'category',
+    //     //   // data: na_li,
+    //     //   splitLine: {                     //坐标轴在 grid 区域中的分隔线。
+    //     //     show: true,                  //是否显示分隔线。默认数值轴显示，类目轴不显示。
+    //     //     interval: 0,            //坐标轴分隔线的显示间隔，在类目轴中有效。默认会采用标签不重叠的策略间隔显示标签。可以设置成 0 强制显示所有标签。如果设置为 1，表示『隔一个标签显示一个标签』，可以用数值表示间隔的数据，也可以通过回调函数控制。回调函数格式如下：
+    //     //   },
+    //     //   startAngle: 0,
+
+    //     // },
+    //     radar: {
+    //         // shape: 'circle',
+    //         name: {
+    //             textStyle: {
+    //                 color: '#fff',
+    //                 backgroundColor: '#999',
+    //                 borderRadius: 3,
+    //                 padding: [3, 5]
+    //             }
+    //         },
+    //         indicator: [
+    //             { name: s_name_li[0], max: maxli[0]},
+    //             { name: s_name_li[1], max: maxli[1]},
+    //             { name: s_name_li[2], max: maxli[2]},
+    //             { name: s_name_li[3], max: maxli[3]},
+    //             { name: s_name_li[4], max: maxli[4]},
+    //             { name: s_name_li[5], max: maxli[5]},
+    //             { name: s_name_li[6], max: maxli[6]},
+    //             { name: s_name_li[7], max: maxli[7]},
+    //             { name: s_name_li[8], max: maxli[8]}
+    //         ]
+    //     },
+    //     // radiusAxis: {
+    //     // //   min: -1,
+    //     // //   max: 1,
+    //     // },
+    //     series: [{
+    //       coordinateSystem: 'polar',
+    //       name: 'cluster1',
+    //       type: 'line',
+    //       data: dat,
+    //       itemStyle: {
+    //         normal: {
+    //           lineStyle: {
+    //             color:'black',//折线的颜色
+    //           }
+    //         }
+    //       }
+    //     }
+    //     ]
+    //   };
+        mychart.setOption(option);
+      
+
+
+  }
