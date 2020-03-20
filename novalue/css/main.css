@@ -10,8 +10,8 @@ body{
 }
 #network0{
     float: left;
-    height: 80%;
-    width: 90%;
+    height: 50%;
+    width: 50%;
 }
 #network1{
     float: left;

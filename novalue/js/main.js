@@ -751,7 +751,161 @@ function drawline(win_name, da_li, sf_na, sf_chn_na, sam_name, sam_rate) {
     myChart1.clear()
     myChart1.setOption(option, true, true);
 }
-function drawleida(w_n,data_li,rate) {
+function drawleida(win_name,data_li,rate){
+     mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
+    'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
+    'rgb(168,168,255)',];
+    maxli = [-100,-100,-100,-100,-100,-100,-100,-100,-100]
+    minli =[ 100, 100, 100, 100, 100, 100, 100, 100, 100]
+    s_name_li = [
+        "SP", "ACC", "CC", "QCS",
+        "SCS", "LCC", "GCC", "ANB_G",
+    ]
+    dataname_li = ["OUR", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
+    name_CHN = {
+        "SP-small":"平均最短路径(大小)", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
+         "LCC": "局部群聚系数", "GCC": "全局聚集系数", "DDC": "度分布相似性", "SP": "平均最短路径", "ANB_G": "中介中心性改"
+     }
+     dat = [[], [], [], [], [], [], []]
+    for (i = 0; i < data_li.length; i++) {
+        for (j in data_li[i]) {
+            if (rate == j.substr(5)) {
+                for (k = 0; k <= 8; k++) {
+                    if (s_name_li[k] == 'SCS') {
+                        datmp = data_li[i][j][s_name_li[k]]['sam_av']
+                        // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
+                        if (datmp > maxli[k]) {
+                            maxli[k] = datmp;
+                        }
+                        if (datmp < minli[k]) {
+                            minli[k] = datmp;
+                        }
+                        dat[i].push(datmp)
+                    }
+                    else {
+                        datmp = data_li[i][j][s_name_li[k]]
+                        if (datmp > maxli[k]) {
+                            maxli[k] = datmp;
+                        }
+                        if (datmp < minli[k]) {
+                            minli[k] = datmp;
+                        }
+                        dat[i].push(datmp)
+                    }
+                }
+
+            }
+        }
+     }
+
+     console.log(dat)
+     var marge = {
+        top: 10,
+        right: 10, 
+        bottom: 90,
+        left: 10
+    }
+      var width = document.getElementById(win_name).clientWidth
+      var height = document.getElementById(win_name).clientHeight
+console.log(width,height);
+      
+      var svg = d3.select("#"+win_name).append('svg').attr('width', width).attr('height', height)
+      var g = svg.append("g").attr("transform", "translate("+marge.left+","+marge.top+")")
+      centerpoint = {
+          x:(width/2-marge.left/2),
+          y:(height/2-marge.left/2)
+      }
+      radim = 2*Math.PI/s_name_li.length
+      var R = (width+height-marge.left-marge.right-marge.top-marge.bottom)/8
+      g.append("circle")
+      .attr("cx", centerpoint.x)
+      .attr("cy", centerpoint.y)
+      .attr("r", R)
+      .attr("class", "waixain")
+      .attr("fill","white")
+      .attr("stroke","black")
+
+    var scalex_li = []
+    var scaley_li = []
+    for (var i = 0; i < s_name_li.length; i++) {
+        g.append("line")
+            .attr("id", "L2")
+            .attr("x1", centerpoint.x)
+            .attr("y1", centerpoint.y)
+            .attr("x2", R * Math.sin(radim * i) + centerpoint.x)
+            .attr("y2", centerpoint.y - R * Math.cos(radim * i))
+            .attr("stroke", "black")
+            .attr("stroke-width", "0.5px");
+        g.append("text").attr("class", "kdtext").attr("x", (R * 1.2) * Math.sin(radim * i) + centerpoint.x - 10).attr("y", centerpoint.y - (R * 1.2) * Math.cos(radim * i)).text(s_name_li[i])
+        if ((i == 0) || (i == 3) || (i == 2)) {
+            var newscax = d3.scaleLinear().domain([maxli[i]*1.1, minli[i]]).range([centerpoint.x, R * Math.sin(radim * i) + centerpoint.x]);
+            var newscay = d3.scaleLinear().domain([maxli[i]*1.1, minli[i]]).range([centerpoint.y, centerpoint.y - R * Math.cos(radim * i)]);
+            scalex_li.push(newscax)
+            scaley_li.push(newscay)
+        }
+        else {
+            var newscax = d3.scaleLinear().domain([minli[i], maxli[i]*1.1]).range([centerpoint.x, R * Math.sin(radim * i) + centerpoint.x]);
+            var newscay = d3.scaleLinear().domain([minli[i], maxli[i]*1.1]).range([centerpoint.y, centerpoint.y - R * Math.cos(radim * i)]);
+            scalex_li.push(newscax)
+            scaley_li.push(newscay)
+        }
+    }
+    for (k in dat) {
+        xx = -1, yy = -1, xxx = 0, yyy = 0
+        for (var j = 0; j < s_name_li.length; j++) {
+            g.append("circle")
+                .attr("cx", scalex_li[j](dat[k][j]))
+                .attr("cy", scaley_li[j](dat[k][j]))
+                .attr("r", 1)
+                .attr("class", "top")
+                .attr("fill", "white")
+                .attr("stroke", mcolor[k])
+            if (xx != -1) {
+                g.append("line")
+                    .attr("id", "L2")
+                    .attr("x1", xx)
+                    .attr("y1", yy)
+                    .attr("x2", scalex_li[j](dat[k][j]))
+                    .attr("y2", scaley_li[j](dat[k][j]))
+                    .attr("stroke", mcolor[k])
+                    .attr("stroke-width", "2.5px");
+            }
+            else{
+                xxx = scalex_li[j](dat[k][j])
+                yyy = scaley_li[j](dat[k][j])
+            }
+            xx = scalex_li[j](dat[k][j])
+            yy = scaley_li[j](dat[k][j])
+        }
+        if (xx != -1) {
+            g.append("line")
+                .attr("id", "L2")
+                .attr("x1", xx)
+                .attr("y1", yy)
+                .attr("x2", xxx)
+                .attr("y2", yyy)
+                .attr("stroke", mcolor[k])
+                .attr("stroke-width", "2.5px");
+        }
+    }
+    sh = (2*R)/dataname_li.length
+    w = sh/2
+    for(i in dataname_li){
+        console.log(dataname_li[i])
+        svg.append("rect")
+        .attr("x",centerpoint.x+R*1.5)
+        .attr("y",centerpoint.y-R+i*sh)
+        .attr("id","rect-"+i)
+        .attr("width", w)
+        .attr("height", w)
+        .style("fill",mcolor[i])
+        .style("stroke",mcolor[i])
+        .attr("class", "rects")
+        svg.append("text").attr("class", "lentext").attr("x",centerpoint.x+R*1.5+w*1.3).attr("y",centerpoint.y-R+i*sh+w).text(dataname_li[i])
+
+    }
+}
+function drawleida_1(w_n,data_li,rate) {
      mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
     'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
     'rgb(168,168,255)',];
@@ -765,32 +919,34 @@ function drawleida(w_n,data_li,rate) {
         "SP-small":"平均最短路径(大小)", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
          "LCC": "局部群聚系数", "GCC": "全局聚集系数", "DDC": "度分布相似性", "SP": "平均最短路径", "ANB_G": "中介中心性改"
      }
-    mychart =  echarts.init(document.getElementById(w_n));
-    name_li = [ "OUR", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
-    dat = [[], [], [], [], [], [], [],[],[]]
-    for(i=0;i<data_li.length;i++){
-        for(j in data_li[i]){
-            if(rate ==j.substr(5)){
-                for(k=0;k<=8;k++){
-                if(s_name_li[k]=='SCS'){
-                    datmp = data_li[i][j][s_name_li[k]]['sam_av']
-                    // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
-                if(datmp>maxli[k]){
-                    maxli[k] = datmp;
+    mychart = echarts.init(document.getElementById(w_n));
+    name_li = ["OUR", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES"]
+    dat = [[], [], [], [], [], [], [], [], []]
+    for (i = 0; i < data_li.length; i++) {
+        for (j in data_li[i]) {
+            if (rate == j.substr(5)) {
+                for (k = 0; k <= 8; k++) {
+                    if (s_name_li[k] == 'SCS') {
+                        datmp = data_li[i][j][s_name_li[k]]['sam_av']
+                        // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
+                        if (datmp > maxli[k]) {
+                            maxli[k] = datmp;
+                        }
+
+                        dat[i].push(datmp)
+                    }
+                    else {
+                        datmp = data_li[i][j][s_name_li[k]]
+                        if (datmp > maxli[k]) {
+                            maxli[k] = datmp;
+                        }
+                        if (datmp < minli[k]) {
+                            minli[k] = datmp;
+                        }
+                        dat[i].push(datmp)
+                    }
                 }
 
-                dat[i].push(datmp)
-                }
-                else{datmp = data_li[i][j][s_name_li[k]]
-                if(datmp>maxli[k]){
-                    maxli[k] = datmp;
-                }
-if(datmp<minli[k]){
-                    minli[k] = datmp;
-                }
-                dat[i].push(datmp)
-                }}
-                
             }
         }
     }
