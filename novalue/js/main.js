@@ -1,4 +1,4 @@
-const FILE_name = "ba"
+const FILE_name = "CH"
 const file_nameli =['WW','SSB','fpp','er','CH','ba'] 
 name_CHN = {
    "SP-small":"平均最短路径(大小)", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
@@ -807,24 +807,72 @@ function drawleida(win_name,data_li,rate){
     }
       var width = document.getElementById(win_name).clientWidth
       var height = document.getElementById(win_name).clientHeight
-console.log(width,height);
       
       var svg = d3.select("#"+win_name).append('svg').attr('width', width).attr('height', height)
       var g = svg.append("g").attr("transform", "translate("+marge.left+","+marge.top+")")
+
+      var defs = svg.append("defs");
+
+    var filter = defs.append("filter")
+      .attr("id", "coolShadow")
+      .attr("x", "-100%").attr("y", "-100%") //
+      .attr("width", "300%").attr("height", "300%"); //
+
+    filter.append("feMorphology")
+      .attr("in", "SourceGraphic")
+      .attr("result", "upperLayer")
+      .attr("operator", "dilate")
+      .attr("radius", "0.2 0.2");
+
+    filter.append("feMorphology")
+      .attr("in", "SourceAlpha")
+      .attr("result", "enlargedAlpha")
+      .attr("operator", "dilate")
+      .attr("radius", "0.2 0.2");
+
+    filter.append("feGaussianBlur")
+      .attr("in", "enlargedAlpha")
+      .attr("result", "bluredAlpha")
+      .attr("stdDeviation", "3");
+
+    filter.append("feOffset")
+      .attr("in", "bluredAlpha")
+      .attr("result", "lowerLayer")
+      .attr("dy", "1"); //
+
+
+    var feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode")
+      .attr("in", "lowerLayer");
+    feMerge.append("feMergeNode")
+      .attr("in", "upperLayer");
+
       centerpoint = {
           x:(width/2-marge.left/2),
           y:(height/2-marge.left/2)
       }
       radim = 2*Math.PI/s_name_li.length
       var R = (width+height-marge.left-marge.right-marge.top-marge.bottom)/8
+      k=5
+      for(var i=k;i>=1;i--){
+          r = R/k*i
+          console.log(r)
       g.append("circle")
       .attr("cx", centerpoint.x)
       .attr("cy", centerpoint.y)
-      .attr("r", R)
+      .attr("r", r)
       .attr("class", "waixain")
-      .attr("fill","white")
-      .attr("stroke","black")
-
+      .style("filter", "url(#coolShadow)")
+      .attr("fill",function(){
+          if(i == 2||(i==4)){
+              return '#bbb';
+          }
+          return 'white'
+      })
+      .attr("opacity","0.6")
+      .attr("stroke","#333")
+      .attr("stroke-dasharray","10 5");
+      }
     var scalex_li = []
     var scaley_li = []
     for (var i = 0; i < s_name_li.length; i++) {
@@ -835,8 +883,9 @@ console.log(width,height);
             .attr("x2", R * Math.sin(radim * i) + centerpoint.x)
             .attr("y2", centerpoint.y - R * Math.cos(radim * i))
             .attr("stroke", "black")
+            .attr("stroke-dasharray","10 5")
             .attr("stroke-width", "0.5px");
-        g.append("text").attr("class", "kdtext").attr("x", (R * 1.2) * Math.sin(radim * i) + centerpoint.x - 10).attr("y", centerpoint.y - (R * 1.2) * Math.cos(radim * i)).text(s_name_li[i])
+        g.append("text").attr("class", "kdtext").attr("x", (R * 1.2) * Math.sin(radim * i) + centerpoint.x - 15).attr("y", centerpoint.y - (R * 1.2) * Math.cos(radim * i)).text(s_name_li[i])
         if ((i == 0) || (i == 3) || (i == 2)) {
             var newscax = d3.scaleLinear().domain([maxli[i]*1.1, minli[i]]).range([centerpoint.x, R * Math.sin(radim * i) + centerpoint.x]);
             var newscay = d3.scaleLinear().domain([maxli[i]*1.1, minli[i]]).range([centerpoint.y, centerpoint.y - R * Math.cos(radim * i)]);
@@ -853,13 +902,7 @@ console.log(width,height);
     for (k in dat) {
         xx = -1, yy = -1, xxx = 0, yyy = 0
         for (var j = 0; j < s_name_li.length; j++) {
-            g.append("circle")
-                .attr("cx", scalex_li[j](dat[k][j]))
-                .attr("cy", scaley_li[j](dat[k][j]))
-                .attr("r", 1)
-                .attr("class", "top")
-                .attr("fill", "white")
-                .attr("stroke", mcolor[k])
+           
             if (xx != -1) {
                 g.append("line")
                     .attr("id", "L2")
@@ -868,7 +911,7 @@ console.log(width,height);
                     .attr("x2", scalex_li[j](dat[k][j]))
                     .attr("y2", scaley_li[j](dat[k][j]))
                     .attr("stroke", mcolor[k])
-                    .attr("stroke-width", "2.5px");
+                    .attr("stroke-width", "1.5px");
             }
             else{
                 xxx = scalex_li[j](dat[k][j])
@@ -876,6 +919,13 @@ console.log(width,height);
             }
             xx = scalex_li[j](dat[k][j])
             yy = scaley_li[j](dat[k][j])
+             g.append("circle")
+                .attr("cx",xx)
+                .attr("cy", yy)
+                .attr("r", 3)
+                .attr("class", "top")
+                .attr("fill", mcolor[k])
+                .attr("stroke", mcolor[k])
         }
         if (xx != -1) {
             g.append("line")
@@ -885,11 +935,12 @@ console.log(width,height);
                 .attr("x2", xxx)
                 .attr("y2", yyy)
                 .attr("stroke", mcolor[k])
-                .attr("stroke-width", "2.5px");
+                .attr("stroke-width", "1.5px");
+                
         }
     }
     sh = (2*R)/dataname_li.length
-    w = sh/2
+    w = sh/2.5
     for(i in dataname_li){
         console.log(dataname_li[i])
         svg.append("rect")
@@ -901,6 +952,7 @@ console.log(width,height);
         .style("fill",mcolor[i])
         .style("stroke",mcolor[i])
         .attr("class", "rects")
+        .style("filter", "url(#coolShadow)")
         svg.append("text").attr("class", "lentext").attr("x",centerpoint.x+R*1.5+w*1.3).attr("y",centerpoint.y-R+i*sh+w).text(dataname_li[i])
 
     }
