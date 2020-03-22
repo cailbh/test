@@ -871,7 +871,10 @@ function drawleida(win_name,data_li,rate){
       })
       .attr("opacity","0.6")
       .attr("stroke","#333")
-      .attr("stroke-dasharray","10 5");
+      .attr("stroke-dasharray",function(){
+          if(i!=k)
+          return "10 5"
+      });
       }
     var scalex_li = []
     var scaley_li = []
@@ -899,7 +902,9 @@ function drawleida(win_name,data_li,rate){
             scaley_li.push(newscay)
         }
     }
+    areas = []
     for (k in dat) {
+        areas.push([])
         xx = -1, yy = -1, xxx = 0, yyy = 0
         for (var j = 0; j < s_name_li.length; j++) {
            
@@ -926,6 +931,7 @@ function drawleida(win_name,data_li,rate){
                 .attr("class", "top")
                 .attr("fill", mcolor[k])
                 .attr("stroke", mcolor[k])
+            areas[k].push([xx,yy])
         }
         if (xx != -1) {
             g.append("line")
@@ -939,12 +945,18 @@ function drawleida(win_name,data_li,rate){
                 
         }
     }
+    console.log(areas)
+    for (var i=0;i<areas.length;i++){
+        g.append('polygon').attr('points', areas[i])
+        .attr("fill",mcolor[i])
+        .attr("opacity","0.3")
+    }
     sh = (2*R)/dataname_li.length
     w = sh/2.5
     for(i in dataname_li){
         console.log(dataname_li[i])
         svg.append("rect")
-        .attr("x",centerpoint.x+R*1.5)
+        .attr("x",centerpoint.x+R*2)
         .attr("y",centerpoint.y-R+i*sh)
         .attr("id","rect-"+i)
         .attr("width", w)
@@ -952,8 +964,9 @@ function drawleida(win_name,data_li,rate){
         .style("fill",mcolor[i])
         .style("stroke",mcolor[i])
         .attr("class", "rects")
+        .attr("rx",'1.2')
         .style("filter", "url(#coolShadow)")
-        svg.append("text").attr("class", "lentext").attr("x",centerpoint.x+R*1.5+w*1.3).attr("y",centerpoint.y-R+i*sh+w).text(dataname_li[i])
+        svg.append("text").attr("class", "lentext").attr("x",centerpoint.x+R*2+w*1.6).attr("y",centerpoint.y-R+i*sh+w).text(dataname_li[i])
 
     }
 }
