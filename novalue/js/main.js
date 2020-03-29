@@ -1,4 +1,4 @@
-const FILE_name = "CH"
+const FILE_name = "ore"
 const file_nameli =['WW','SSB','fpp','er','CH','ba'] 
 name_CHN = {
    "SP-small":"平均最短路径(大小)", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
@@ -607,7 +607,8 @@ d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[0] + "new_Eva.jso
                                 d3.json("data/" + FILE_name + "/" + FILE_name + "bar.json", function (bar) {
                                     data_li = [OUR, SRW, ISRW, RJ, RNS, RES, TIES]
                                     rate = "5"
-                                    drawleida('network0',data_li,rate)
+                                    sf_nali = ["OUR","SRW"]
+                                    drawleida('network0',data_li,rate,sf_nali)
                                 })
                             })
                         })
@@ -751,7 +752,7 @@ function drawline(win_name, da_li, sf_na, sf_chn_na, sam_name, sam_rate) {
     myChart1.clear()
     myChart1.setOption(option, true, true);
 }
-function drawleida(win_name,data_li,rate){
+function drawleida(win_name,data_li,rate,suanfanameli){
      mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
     'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
     'rgb(168,168,255)',];
@@ -797,13 +798,11 @@ function drawleida(win_name,data_li,rate){
             }
         }
      }
-
-     console.log(dat)
      var marge = {
-        top: 10,
-        right: 10, 
-        bottom: 90,
-        left: 10
+        top: 50,
+        right: 50, 
+        bottom: 50,
+        left: 50
     }
       var width = document.getElementById(win_name).clientWidth
       var height = document.getElementById(win_name).clientHeight
@@ -848,8 +847,8 @@ function drawleida(win_name,data_li,rate){
       .attr("in", "upperLayer");
 
       centerpoint = {
-          x:(width/2-marge.left/2),
-          y:(height/2-marge.left/2)
+          x:(width/3*2-marge.left/2),
+          y:(height/3*2-marge.left/2)
       }
       radim = 2*Math.PI/s_name_li.length
       var R = (width+height-marge.left-marge.right-marge.top-marge.bottom)/8
@@ -916,6 +915,15 @@ function drawleida(win_name,data_li,rate){
                     .attr("x2", scalex_li[j](dat[k][j]))
                     .attr("y2", scaley_li[j](dat[k][j]))
                     .attr("stroke", mcolor[k])
+                    .attr("opacity",function(){
+                        console.log(suanfanameli.indexOf(dataname_li[k]))
+                        if(suanfanameli.indexOf(dataname_li[k])==-1){
+                            return 0
+                        }
+                        else{
+                            return 1
+                        }
+                    })
                     .attr("stroke-width", "1.5px");
             }
             else{
@@ -931,6 +939,14 @@ function drawleida(win_name,data_li,rate){
                 .attr("class", "top")
                 .attr("fill", mcolor[k])
                 .attr("stroke", mcolor[k])
+                .attr("opacity",function(){
+                    if(suanfanameli.indexOf(dataname_li[k])==-1){
+                        return 0
+                    }
+                    else{
+                        return 1
+                    }
+                })
             areas[k].push([xx,yy])
         }
         if (xx != -1) {
@@ -940,35 +956,51 @@ function drawleida(win_name,data_li,rate){
                 .attr("y1", yy)
                 .attr("x2", xxx)
                 .attr("y2", yyy)
+                .attr("opacity",function(){
+                    if(suanfanameli.indexOf(dataname_li[k])==-1){
+                        return 0
+                    }
+                    else{
+                        return 1
+                    }
+                })
                 .attr("stroke", mcolor[k])
                 .attr("stroke-width", "1.5px");
                 
         }
     }
-    console.log(areas)
+    
     for (var i=0;i<areas.length;i++){
         g.append('polygon').attr('points', areas[i])
-        .attr("fill",mcolor[i])
-        .attr("opacity","0.3")
+        .attr("fill",mcolor[i]) .attr("opacity",function(){
+            if(suanfanameli.indexOf(dataname_li[i])==-1){
+                return 0
+            }
+            else{
+                return 0.3
+            }
+        })
+        .attr("stroke", mcolor[i])
+        .attr("stroke", "1.5px");
     }
     sh = (2*R)/dataname_li.length
     w = sh/2.5
-    for(i in dataname_li){
-        console.log(dataname_li[i])
-        svg.append("rect")
-        .attr("x",centerpoint.x+R*2)
-        .attr("y",centerpoint.y-R+i*sh)
-        .attr("id","rect-"+i)
-        .attr("width", w)
-        .attr("height", w)
-        .style("fill",mcolor[i])
-        .style("stroke",mcolor[i])
-        .attr("class", "rects")
-        .attr("rx",'1.2')
-        .style("filter", "url(#coolShadow)")
-        svg.append("text").attr("class", "lentext").attr("x",centerpoint.x+R*2+w*1.6).attr("y",centerpoint.y-R+i*sh+w).text(dataname_li[i])
+//     for(i in dataname_li){
+//         console.log(dataname_li[i])
+//         svg.append("rect")
+//         .attr("x",centerpoint.x+R*2)
+//         .attr("y",centerpoint.y-R+i*sh)
+//         .attr("id","rect-"+i)
+//         .attr("width", w)
+//         .attr("height", w)
+//         .style("fill",mcolor[i])
+//         .style("stroke",mcolor[i])
+//         .attr("class", "rects")
+//         .attr("rx",'1.2')
+//         .style("filter", "url(#coolShadow)")
+//         svg.append("text").attr("class", "lentext").attr("x",centerpoint.x+R*2+w*1.6).attr("y",centerpoint.y-R+i*sh+w).text(dataname_li[i])
 
-    }
+//     }
 }
 function drawleida_1(w_n,data_li,rate) {
      mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
