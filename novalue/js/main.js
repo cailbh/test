@@ -756,6 +756,7 @@ function drawleida(win_name,data_li,rate,suanfanameli){
     mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
    'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
    'rgb(168,168,255)',];
+   mm=6
    maxli = [-100,-100,-100,-100,-100,-100,-100,-100,-100]
    minli =[ 100, 100, 100, 100, 100, 100, 100, 100, 100]
    s_name_li = [
@@ -865,11 +866,15 @@ function drawleida(win_name,data_li,rate,suanfanameli){
      .attr("cy", centerpoint.y)
      .attr("r", r)
      .attr("class", "waixain")
-     .style("filter", "url(#coolShadow)")
-     .attr("fill",function(){
-         if(i == 2||(i==4)){
-             return '#bbb';
+     .style("filter", function(){
+         if(i==k){
+             return "url(#coolShadow)"
          }
+         })
+     .attr("fill",function(){
+        //  if(i == 2||(i==4)){
+        //      return '#bbb';
+        //  }
          return 'white'
      })
      .attr("opacity","0.6")
@@ -904,12 +909,11 @@ function drawleida(win_name,data_li,rate,suanfanameli){
         .attr("id","rect-"+i)
         .attr("width", '25px')
         .attr("height", '10px')
-        .style("fill",'#333')
-        .style("stroke",'#333')
+        .style("fill",'#555')
+        .style("stroke",'#555')
         .attr("class", "rects")
-        .attr("rx",'2')
+        .attr("rx",'20')
         .attr('opacity','0.5')
-        .style("filter", "url(#coolShadow)")
        g.append("text").attr("class", "kdtext").attr("x", (R * 1.29) * Math.sin(radim * i) + centerpoint.x - 13)
        .attr("y", function(){ 
            ans =  (R * 1.29) * Math.cos(radim * i)
@@ -946,7 +950,7 @@ function drawleida(win_name,data_li,rate,suanfanameli){
                    .attr("y1", yy)
                    .attr("x2", scalex_li[j](dat[k][j]))
                    .attr("y2", scaley_li[j](dat[k][j]))
-                   .attr("stroke", mcolor[k])
+                   .attr("stroke", mcolor[mm])
                    .attr("opacity",function(){
                        console.log(suanfanameli.indexOf(dataname_li[k]))
                        if(suanfanameli.indexOf(dataname_li[k])==-1){
@@ -969,8 +973,8 @@ function drawleida(win_name,data_li,rate,suanfanameli){
                .attr("cy", yy)
                .attr("r", 2)
                .attr("class", "top")
-               .attr("fill", mcolor[k])
-               .attr("stroke", mcolor[k])
+               .attr("fill", mcolor[mm])
+               .attr("stroke", mcolor[mm])
                .attr("opacity",function(){
                    if(suanfanameli.indexOf(dataname_li[k])==-1){
                        return 0
@@ -996,7 +1000,7 @@ function drawleida(win_name,data_li,rate,suanfanameli){
                        return 1
                    }
                })
-               .attr("stroke", mcolor[k])
+               .attr("stroke", mcolor[mm])
                .attr("stroke-width", "1.5px");
                
        }
@@ -1004,7 +1008,7 @@ function drawleida(win_name,data_li,rate,suanfanameli){
    
    for (var i=0;i<areas.length;i++){
        g.append('polygon').attr('points', areas[i])
-       .attr("fill",mcolor[i]) .attr("opacity",function(){
+       .attr("fill",mcolor[mm]) .attr("opacity",function(){
            if(suanfanameli.indexOf(dataname_li[i])==-1){
                return 0
            }
@@ -1012,7 +1016,7 @@ function drawleida(win_name,data_li,rate,suanfanameli){
                return 0.3
            }
        })
-       .attr("stroke", mcolor[i])
+       .attr("stroke", mcolor[mm])
        .attr("stroke", "1.5px");
    }
    sh = (2*R)/dataname_li.length
