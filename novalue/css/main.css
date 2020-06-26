@@ -10,9 +10,9 @@ body{
 }
 #network0{
     float: left;
-    height:222px;
-    width: 323px;
-    background-color: #eee6e6;
+    height:80%;
+    width: 80%;
+    background-color: #ffffff;
 }
 #network1{
     float: left;

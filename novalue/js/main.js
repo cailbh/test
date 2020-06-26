@@ -1,5 +1,5 @@
-const FILE_name = "CH"
-const file_nameli = ['WW', 'SSB', 'fpp', 'er', 'CH', 'ba']
+const FILE_name = "FourBallTest"
+const file_nameli = ['WW', 'SSB', 'fpp', 'er', 'CH', 'ieee']
 name_CHN = {
     "SP-small": "平均最短路径(大小)", "ACE": "特征向量中心性", "ANB": "中介中心性", "ACC": "紧密中心性", "CC": "网络连通性", "QCS": "社区数量相似性", "SCS": "社区结构稳定性",
     "LCC": "局部群聚系数", "GCC": "全局聚集系数", "DDC": "度分布相似性", "SP": "平均最短路径", "ANB_G": "中介中心性改"
@@ -14,7 +14,7 @@ s_name_li2 = [
 ]
 s_name_li3 = [
     "SP", "ANB", "ACC", "QCS",
-    "SCS", "LCC", "GCC", "ANB_G", "SP-small"
+    "SCS", "LCC", "GCC", "ANB_G", "SP-small",'CC'
 ]
 var mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
     'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
@@ -180,19 +180,19 @@ function drawbar(win_name, da_li) {
     myChart1.clear()
     myChart1.setOption(option, true, true);
 }
-// d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm.csv", function (f1) {
-//     d3.csv("data/" + file_nameli[1] + "/" + file_nameli[1] + "pm.csv", function (f2) {
-//         d3.csv("data/" + file_nameli[2] + "/" + file_nameli[2] + "pm.csv", function (f3) {
-//             d3.csv("data/" + file_nameli[3] + "/" + file_nameli[3] + "pm.csv", function (f4) {
-//                 d3.csv("data/" + file_nameli[4] + "/" + file_nameli[4] + "pm.csv", function (f5) {
-//                     d3.csv("data/" + file_nameli[5] + "/" + file_nameli[5] + "pm.csv", function (f6) {
-//                         data_li = [f1, f2, f3, f4, f5]
+// d3.csv("data/" + file_nameli[0] + "/" + file_nameli[0] + "pm - 副本.csv", function (f1) {
+//     d3.csv("data/" + file_nameli[1] + "/" + file_nameli[1] + "pm - 副本.csv", function (f2) {
+//         d3.csv("data/" + file_nameli[2] + "/" + file_nameli[2] + "pm - 副本.csv", function (f3) {
+//             d3.csv("data/" + file_nameli[3] + "/" + file_nameli[3] + "pm - 副本.csv", function (f4) {
+//                 d3.csv("data/" + file_nameli[4] + "/" + file_nameli[4] + "pm - 副本.csv", function (f5) {
+//                     d3.csv("data/" + file_nameli[5] + "/" + file_nameli[5] + "pm - 副本.csv", function (f6) {
+//                         data_li = [f1, f2, f3, f4, f5,f6]
 
-//                         sfn = { 'OUR': 0, 'SRW': 1, 'ISRW': 2, 'RJ': 3, 'RNS': 4, 'RES': 5, 'TIES': 6 }
+//                         sfn = { 'our': 0, 'SRW': 1, 'ISRW': 2, 'RJ': 3, 'RNS': 4, 'RES': 5, 'TIES': 6 }
 //                         dat = [[], [], [], [], [], [], []]
-//                         // var data = f1
+//                         var data = f1
 //                         // for (i = 0; i < data.length; i++) {
-//                         //     // console.log(data[i])
+//                         //     console.log(data[i])
 //                         //     for (x in s_name_li3) {
 //                         //         if (s_name_li3[x] == "ANB") {
 //                         //             console.log(1)
@@ -205,11 +205,11 @@ function drawbar(win_name, da_li) {
 //                         //         }
 //                         //     }
 //                         // }
-//                         sflin = s_name_li3[4]
+//                         sflin = s_name_li3[9]
 //                         for(i=0;i<data_li.length;i++){
 //                             for(j=0;j<data_li[i].length;j++){
 
-//                                 // if ((sflin == "ANB_G") || (sflin == "SCS")) {
+//                                 // if ((sflin == "CC") ||(sflin == "ANB_G") || (sflin == "SCS")) {
 //                                     dat[sfn[data_li[i][j]['ori']]].push(data_li[i][j][sflin])
 //                                 // }
 //                                 // else {
@@ -218,7 +218,7 @@ function drawbar(win_name, da_li) {
 //                             }
 //                         }
 //                         //  drawbar("network0",data_li)
-//                         // drawbox("network0", dat,name_CHN[sflin])
+//                         drawbox("network0", dat,name_CHN[sflin])
 //                     })
 //                 })
 //             })
@@ -307,7 +307,7 @@ function drawbox(win_name, data, textname) {
         },
         xAxis: {
             type: 'category',
-            position: 'top',
+            position: 'bottom',
             data: ['OUR', 'SRW', 'ISRW', 'RJ', 'RNS', 'RES', 'TIES'],
             boundaryGap: true,
             nameGap: 30,
@@ -597,19 +597,30 @@ namelist = ["ori", "OUR", "SRW", "ISRW", "RJ", "RNS", "RES", "TIES", "BFS", "DFS
 // });
 
 // });
-d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[0] + "new_Eva.json", function (ori) {
-    d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[1] + "new_Eva.json", function (OUR) {
-        d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[2] + "new_Eva.json", function (SRW) {
-            d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[3] + "new_Eva.json", function (ISRW) {
-                d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[4] + "new_Eva.json", function (RJ) {
-                    d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[5] + "new_Eva.json", function (RNS) {
-                        d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[6] + "new_Eva.json", function (RES) {
-                            d3.json("data/" + FILE_name + "/" + FILE_name + "f" + namelist[7] + "new_Eva.json", function (TIES) {
+d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[0] + "1new_Eva.json", function (ori) {
+    d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[1] + "1new_Eva.json", function (OUR) {
+        d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[2] + "1new_Eva.json", function (SRW) {
+            d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[3] + "1new_Eva.json", function (ISRW) {
+                d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[4] + "1new_Eva.json", function (RJ) {
+                    d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[5] + "1new_Eva.json", function (RNS) {
+                        d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[6] + "1new_Eva.json", function (RES) {
+                            d3.json("data/" + FILE_name + "/" + FILE_name + "333" + namelist[7] + "1new_Eva.json", function (TIES) {
                                 d3.json("data/" + FILE_name + "/" + FILE_name + "bar.json", function (bar) {
+                                    console.log("data/" + FILE_name + "/" + FILE_name + "333" + namelist[1] + "1new_Eva.json",OUR)
                                     data_li = [OUR, SRW, ISRW, RJ, RNS, RES, TIES]
-                                    rate = "5"
-                                    sf_nali = ["OUR", "SRW"]
-                                    drawleida('network0', data_li, rate, sf_nali)
+                                    rate = "40"
+                                    rr = 5
+                                    // i = 1
+                                    for(var i=0;i<8;i++){
+                                        rate = i*5+5
+                                        sf_nali = ["RES"]
+                                        data_li = [OUR, SRW, ISRW, RJ, RNS, RES, TIES]
+                                        drawleida('network'+i, data_li, rate, sf_nali)
+                                        rr = r+5
+                                    }
+                                    console.log(data_li)
+                                    // sf_nali = ["OUR"]
+                                    // drawleida('network0', data_li, rate, sf_nali)
                                 })
                             })
                         })
@@ -754,6 +765,7 @@ function drawline(win_name, da_li, sf_na, sf_chn_na, sam_name, sam_rate) {
     myChart1.setOption(option, true, true);
 }
 function drawleida(win_name, data_li, rate, suanfanameli) {
+    rate = ''+rate
     mcolor = ['rgb(255,60,60)', 'rgb(255,83,255)', 'rgb(235,135,162)', 'rgb(255,178,101)',
         'rgb(63,151,134)', 'rgb(83,255,255)', 'rgb(0,122,244)',
         'rgb(168,168,255)',];
@@ -777,8 +789,51 @@ function drawleida(win_name, data_li, rate, suanfanameli) {
     for (i = 0; i < data_li.length; i++) {
         for (j in data_li[i]) {
             if (rate == j.substr(5)) {
-                for (k = 0; k <= 8; k++) {
+                for (k = 0; k < 8; k++) {
                     if (s_name_li[k] == 'SCS') {
+                        // console.log(data_li,i,j,data_li[i][j],s_name_li[k])
+                        datmp = data_li[i][j][s_name_li[k]]['sam_av']
+                        // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
+                        // if (datmp > maxli[k]) {
+                        //     maxli[k] = datmp;
+                        // }
+                        // if (datmp < minli[k]) {
+                        //     minli[k] = datmp;
+                        // }
+                        dat[i].push(datmp)
+                    }
+                    else if ((s_name_li[k] == 'ACC')||(s_name_li[k] == 'LCC')) {
+                        datmp = data_li[i][j][s_name_li[k]][1]
+                        // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
+                        // if (datmp > maxli[k]) {
+                        //     maxli[k] = datmp;
+                        // }
+                        // if (datmp < minli[k]) {
+                        //     minli[k] = datmp;
+                        // }
+                        dat[i].push(datmp)
+                    }
+                    else {
+                        datmp = data_li[i][j][s_name_li[k]]
+                        // if (datmp > maxli[k]) {
+                        //     maxli[k] = datmp;
+                        // }
+                        // if (datmp < minli[k]) {
+                        //     minli[k] = datmp;
+                        // }
+                        dat[i].push(datmp)
+                    }
+                }
+
+            }
+        }
+    }
+    for (i = 0; i < data_li.length; i++) {
+        for (j in data_li[i]) {
+            // if (rate == j.substr(5)) {
+                for (k = 0; k < 8; k++) {
+                    if (s_name_li[k] == 'SCS') {
+                        // console.log(data_li,i,j,data_li[i][j],s_name_li[k])
                         datmp = data_li[i][j][s_name_li[k]]['sam_av']
                         // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
                         if (datmp > maxli[k]) {
@@ -787,7 +842,18 @@ function drawleida(win_name, data_li, rate, suanfanameli) {
                         if (datmp < minli[k]) {
                             minli[k] = datmp;
                         }
-                        dat[i].push(datmp)
+                        // dat[i].push(datmp)
+                    }
+                    else if ((s_name_li[k] == 'ACC')||(s_name_li[k] == 'LCC')) {
+                        datmp = data_li[i][j][s_name_li[k]][1]
+                        // console.log(s_name_li[k], data_li[i][j][s_name_li[k]['sam_av']])
+                        if (datmp > maxli[k]) {
+                            maxli[k] = datmp;
+                        }
+                        if (datmp < minli[k]) {
+                            minli[k] = datmp;
+                        }
+                        // dat[i].push(datmp)
                     }
                     else {
                         datmp = data_li[i][j][s_name_li[k]]
@@ -797,13 +863,13 @@ function drawleida(win_name, data_li, rate, suanfanameli) {
                         if (datmp < minli[k]) {
                             minli[k] = datmp;
                         }
-                        dat[i].push(datmp)
+                        // dat[i].push(datmp)
                     }
                 }
-
-            }
+            // }
         }
     }
+    console.log(maxli,minli)
     var marge = {
         top: 0,
         right: 10,
@@ -853,11 +919,11 @@ function drawleida(win_name, data_li, rate, suanfanameli) {
         .attr("in", "upperLayer");
 
     centerpoint = {
-        x: (width / 3 * 2 - marge.left / 2),
-        y: (height / 3 * 2 - marge.left / 2)
+        x: (width / 2 - marge.left ),
+        y: (height / 2 )
     }
     radim = 2 * Math.PI / s_name_li.length
-    var R = (width + height - marge.left - marge.right - marge.top - marge.bottom) / 8
+    var R = (width + height - marge.left - marge.right - marge.top - marge.bottom) / 9
     k = 5
     for (var i = k; i >= 1; i--) {
         r = R / k * i
