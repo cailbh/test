@@ -1,0 +1,19 @@
+/*
+ * @Author: ChenShan 
+ * @Date: 2019-11-02 23:41:16 
+ * @Last Modified by:   ChenShan 
+ * @Last Modified time: 2019-11-02 23:41:16 
+ */
+ 
+.node circle{
+    stroke:steelblue;
+    stroke-width: 1.5px;
+}
+.node{
+    font: 12px sans-serif;
+}
+.link{
+    fill:none;
+    stroke:#ccc;
+    stroke-width: 1.5px;
+}

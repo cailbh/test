@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /*div样式*/
+        html {
+            background-color: rgb(204, 190, 67);
+            height: 100%;
+        }
+        #left{
+            float: left;
+            height: 100%;
+            width: 80%
+        }
+        #right{
+            float: left;;
+            height: 100%;
+            width: 20%;
+        }
+        #left_up{
+            float: left;
+            height: 45%;
+            width: 100%;
+        }
+        #left_down{
+            float: left;
+            height: 55%;
+            width: 100%;
+        }
+        #left_up_l{
+            float: left;
+            height: 100%;
+            width: 35%;
+        }
+        #left_up_r{
+            float: left;
+            height: 100%;
+            width: 65%;
+        }
+        #left_down_l{
+            float: left;
+            height: 100%;
+            width: 45%;
+        }
+        #left_down_r{
+            float: left;
+            height: 100%;
+            width: 55%;
+        }
+        .bo{
+    height:30px;
+    margin:0px;
+}
+#g1{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g2{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g3{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g4{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g5{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g6{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#down{
+      float: left;
+    width: 1200px;
+    height: 60%;
+  position: absolute;
+  top: 540px;
+  left: 0px;
+}
+#rt1{
+    float: left;
+    width: 400px;
+    height: 400px;
+}
+#rt2{
+    float: left;
+    width: 800px;
+    height: 100%;
+}
+/* 清除li样式 */
+.ul,.li{
+    list-style: none;
+    outline-style: outset solid dotted dashed double;
+    height: 100%;
+    padding: 0px;
+}
+/* 将ul相对定位，目的是让内容的div绝对定位时相对ul定位，否则会相对body定位 */
+/* ul弹性盒，目的是让li横着排，也可以将li浮动或者转行内块 */
+.ul{
+    position: static;
+    right: -100px;
+    display:flex;
+}
+/* 将三个li宽度平分，高度60px */
+.li{
+    flex:1;
+    height:100%;
+}
+/* input隐藏 */
+.in{
+    display:none;
+}
+/* 设置input的下一个节点label的样式 */
+.in+label{
+    display:block;
+    width:100%;
+    height:100%;
+    background:rgb(49, 117, 176);
+    font-size:1px;
+    text-align: center;
+    line-height: 100%;
+    color:#333;
+}
+/* 设置div内容的基础样式 隐藏内容div*/
+.in+label+div{
+    display:none;
+    position: absolute;
+    left:0;
+    top:60px;
+}
+/* input选中状态时候对应的label的样式 */
+.in:checked+label{
+    background: #333333;
+    color:#fff;
+}
+/* input选中时候显示对应的div */
+.in:checked+label+div{
+    display:block;
+}
+        .p-h{
+    top:0px;
+    padding: 0px;
+    margin: 0px;
+    outline-color: rgb(29, 84, 133);
+    outline-style: outset solid dotted dashed double;
+    outline-width: 1px;
+    height: 30px;
+    background-color: rgb(49, 117, 176);
+    font-size: 20px;
+    color:#fff;
+    line-height: 50%;
+    text-indent: 10px;
+    text-align: center;
+    
+}
+    </style>
+
+<body>
+    <!-- //左侧图 -->
+    <div id="left">
+        <div id="left_up">
+            <div id="left_up_l">
+                <div id="l" class="panel panel-primary">
+                    <div class="p-h">
+                      <h3 class="panel-title">图像参数设置</h3>
+                    </div>
+                    <div class="panel-body">
+                      <div align="center">
+                        <h5>样本规模设置</h5>
+                        <select id="selectdata" onchange="choosedata()">
+                          <option class="choose">choose</option>
+                          <option class="choose" value="tree">tree</option>
+                          <option class="choose" value="circle">circle</option>
+                          <option class="choose" value="star">star</option>
+                          <option class="choose" value="strong">strong</option>
+                          <option class="choose" value="week">week</option>
+                        </select>
+                        <!-- <button type="button" class="btn btn-primary" onclick="setsize(1)">小</button>
+                        <button type="button" class="btn btn-primary" onclick="setsize(2)">中</button>
+                        <button type="button" class="btn btn-primary" onclick="setsize(3)">大</button> -->
+                        <h5>采样散点设置</h5>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary" onclick="drawtop(1)">原始类别</button>
+                          <button type="button" class="btn btn-primary" onclick="drawtop(2)">kmeans聚类</button>
+                          <button type="button" class="btn btn-primary" onclick="drawtop(3)">热力图</button>
+                        </div>
+                        <h5>径向坐标和sankey图</h5>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary" onclick="switchchart(1)">sankey</button>
+                          <button type="button" class="btn btn-primary" onclick="switchchart(2)">径向坐标</button>
+                          <button type="button" class="btn btn-primary" onclick="switchchart(3)">箱线图</button>
+                        </div>
+                        <h5>点边突出显示</h5>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary" onclick="makepoint(1)">高度数点</button>
+                          <button type="button" class="btn btn-primary" onclick="makepoint(2)">社区中心点</button>
+                          <button type="button" class="btn btn-primary" onclick="makepoint(3)">邻居点</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
+            <div id="left_up_r">
+                <div id="rb" class="panel panel-primary">
+                    <div class="p-h">
+                      <h2 class="panel-title" id="title1">采样散点图
+                      </h2>
+                    </div>
+                    <div style="height: 500px;width: 1000px">
+                      <div id="san1">
+                        <div>
+                          <div id="g1"></div>
+                          <div id="g2"></div>
+                          <div id="g3"></div>
+                        </div>
+                        <div>
+                          <div id="g4"></div>
+                          <div id="g5"></div>
+                          <div id="g6"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
+        </div>
+        <div id="left_down">
+            <div id="left_down_l">
+
+                <div id="rt1" class="panel panel-primary">
+                    <div class="p-h">
+                      <h2 class="panel-title">力引导图
+            
+                      </h2>
+                    </div>
+                    <div style="height: 400px;width: 400px;border: 1;" id="force"></div>
+                  </div>
+            </div>
+            <div id="left_down_r">
+    <div id="rt2" class="panel panel-primary">
+        <div class="p-h">
+          <div class="box">
+            <ul class="ul">
+                <li class="li">
+                  <input class = "in" type="radio" name="check" id="active1" checked><label for="active1">第一页</label>
+                </li>
+                <li class="li">
+                  <input class = "in" type="radio" name="check" id="active2"><label for="active2">第二页</label>
+                </li>
+                <li class="li">
+                  <input class = "in" type="radio" name="check" id="active3"><label for="active3">第三页</label>
+                </li>
+              </ul>
+        </div>
+          <h2 class="panel-title" id="t2">
+            <!-- 桑基图和径向坐标 -->
+
+          </h2>
+        </div>
+        <div id="sankey" style="position: relative;z-index: 3;">
+        </div>
+        <div id="pp" style="float: left;height: 360px;width: 800px;position: absolute;z-index: 2;top: 40px;">
+          <div id="p1" style="height: 360px;width: 400px;z-index: 2;float: left;"></div>
+          <div id="p2" style="height: 360px;width: 400px;z-index: 2;float: left;"></div>
+        </div>
+        <div id="box" style="float: left;height: 360px;width: 800px;position: absolute;z-index: 1;top: 40px;">
+        </div>
+      </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="right">
+    </div>
+    <!-- 右上布局 -->
+</body>
+
+</html>

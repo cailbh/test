@@ -1,0 +1,91 @@
+<html>  
+  <head>  
+        <meta charset="utf-8">  
+        <title>10.2 饼状图</title>  
+  </head> 
+ 
+<style>
+ 
+</style>
+ 
+<body>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>  
+<script>
+ 
+var width=400;
+var height=400;
+var svg=d3.select("body")
+			.append("svg")
+			.attr("width",width)
+			.attr("height",height)
+ var hdg =  svg.append("g")
+    .attr("id","hd")
+ 
+var dataset=[ ["0",1] , ["1",1] , ["2",1] , ["3",1] ,
+						["4",1] , ["5",1] ];
+ 
+//转换数据
+var pie=d3.layout.pie() //创建饼状图
+			.value(function(d){
+				return d[1];
+			});//值访问器
+//dataset为转换前的数据 piedata为转换后的数据
+var piedata=pie(dataset);
+ 
+//绘制
+var outerRadius=width/3;
+var innerRadius=0;//内半径和外半径
+ 
+//创建弧生成器
+var arc=d3.svg.arc()
+            .startAngle(function(d){
+                return d.startAngle+0.3
+            })
+            .endAngle(function(d){
+                return d.endAngle+0.3
+            })
+			.innerRadius(innerRadius)
+			.outerRadius(outerRadius);
+var color=d3.scale.category20();
+//添加对应数目的弧组
+var arcs=hdg.selectAll("g")
+			.data(piedata)
+			.enter()
+			.append("g")
+			.attr("transform","translate("+(width/2)+","+(height/2)+")")
+//添加弧的路径元素
+arcs.append("path")
+	.attr("fill",function(d,i){
+		return color(i);
+	})
+    .attr("id",function(d){return "hd"+d.data[0]})
+    .on("click", function (d, i) {
+        for(var xx = 0;xx<6;xx++){
+          d3.select("#hd"+xx)
+          .attr("opacity",function(j){
+            //   console.log(d,j)
+                if(d.data[0] == j.data[0]){
+                    console.log(xx,j)
+                    return 1
+                }
+                
+                else{
+                return 0.1}
+            });
+        }
+        })
+    .attr("opacity",function(d){
+                return 0.1
+            })
+	.attr("d",function(d){
+		return arc(d);//使用弧生成器获取路径
+	});
+
+ 
+ 
+ 
+</script>
+ 
+</body>
+ 
+</html>

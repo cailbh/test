@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .link line.separator {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .node circle {
+            stroke: #000;
+            stroke-width: 1.5px;
+        }
+
+        .node text {
+            font: 10px sans-serif;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+        d3.json("tt.json",function(a){
+            console.log(a)
+//         var nodes = [  ];
+                          
+//             var links = [  { source : 0  , target: 1 } , { source : 0  , target: 2 } ,
+//                            { source : 0  , target: 3 } , { source : 1  , target: 4 } ,
+//                            { source : 1  , target: 5 } , { source : 1  , target: 6 }  ];   
+//             //  for(i=0;i<a['nodes'].length;i++){
+//             //      nodes.push({"name":a['nodes'][i]['id']+""})
+//             //  }
+// nodes  =[]
+// aa = 0
+//         while(aa<2000){
+//             nodes.push({
+//                 id:aa+''
+//             })
+//             aa++
+//         } 
+//         var edges = [];
+//             a.edges.forEach(
+//                 function (e) {
+//                     var sourceNode = nodes.filter(function (n) {
+//                             return n.id === e.source;
+//                         })[0],
+//                         targetNode = nodes.filter(
+//                             function (n) {
+//                                 return n.id === e.target;
+//                             })[0]
+
+//                     edges.push({
+//                         source: sourceNode,
+//                         target: targetNode,
+//                     });
+//                 }
+//             );
+//              nodes = nodes
+//              links = edges
+        var edges = [];
+            a.links.forEach(
+                function (e) {
+                    var sourceNode = a.nodes.filter(function (n) {
+                            return n.id === e.source;
+                        })[0],
+                        targetNode = a.nodes.filter(
+                            function (n) {
+                                return n.id === e.target;
+                            })[0]
+
+                    edges.push({
+                        source: sourceNode,
+                        target: targetNode,
+                    });
+                }
+            );
+             nodes = a.nodes
+             links = edges
+             console.log(links)
+            var width = 1000;
+            var height = 1000;
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width",width)
+                        .attr("height",height);
+            // 通过布局来转换数据，然后进行绘制
+            var simulation = d3.forceSimulation(nodes)
+                  .force("link", d3.forceLink(links).distance(function(a){
+                    //   console.log(a)
+                    //   if(a.source['com']==a.target['com'])
+                    //   return -10
+                    //   else
+                      return 100
+                  }))
+                  .force("charge",d3.forceManyBody())//创建多体力
+                  .force("center",d3.forceCenter(width, height));
+     
+            simulation
+                  .nodes(nodes)//设置力模拟的节点
+                  .on("tick", ticked);
+ console.log(nodes)
+              simulation.force("link")//添加或移除力
+                  .links(links);//设置连接数组
+            
+            var color = d3.scaleOrdinal(d3.schemeCategory20); 
+            // 绘制
+            var svg_links = svg.selectAll("line")
+                .data(links)
+                .enter()
+                .append("line")
+                .style("stroke","#ccc")
+                .style("stroke-width",2)
+                .call(d3.zoom()//创建缩放行为
+                    .scaleExtent([-5, 2])//设置缩放范围
+                );
+         
+               var svg_nodes = svg.selectAll("circle")
+                .data(nodes)
+                .enter()
+                .append("circle")
+                  .attr("cx", function(d) { return d.x; })
+                  .attr("cy", function(d) { return d.y; })
+                  .attr("r", '3')
+                  .attr("id",function(d){return d.id;})
+                  .on("mouseover",function(d){  
+                                  })
+                  .attr("fill", function(d,i){
+                    return color(0);
+                }).call(d3.drag().on("start", dragstarted)//d3.drag() 创建一个拖曳行为
+                      .on("drag", dragged)
+                      .on("end", dragended))
+                      
+                //  //添加描述节点的文字
+                //  var svg_texts = svg.selectAll("text")
+                //      .data(nodes)
+                //      .enter()
+                //      .append("text")
+                //      .style("fill", "black")
+                //      .attr("dx", 2)
+                //      .attr("dy", 8)
+                //      .text(function(d){
+                //         return d.name;
+                //      });
+               function dragstarted(d) {
+                  if (!d3.event.active) simulation.alphaTarget(0.3).restart();//设置目标α
+                  d.fx = d.x;
+                  d.fy = d.y;
+                }
+ 
+                function dragged(d) {
+                  d.fx = d3.event.x;
+                  d.fy = d3.event.y;
+                }
+ 
+                function dragended(d) {
+                  if (!d3.event.active) simulation.alphaTarget(0);
+                  d.fx = null;
+                  d.fy = null;
+                }
+                function ticked() {
+                    svg_links.attr("x1",function(d){ return validateXY(d.source.x,'x'); })
+                     .attr("y1",function(d){ return validateXY(d.source.y,'y'); })
+                     .attr("x2",function(d){ return validateXY(d.target.x,'x'); })
+                     .attr("y2",function(d){ return validateXY(d.target.y,'y'); });
+ 
+                     svg_nodes.attr("cx",function(d){ return validateXY(d.x,'x'); })
+                     .attr("cy",function(d){ return validateXY(d.y,'y'); });
+                     
+                    // svg_texts.attr("x", function(d){ return d.x; })
+                    //    .attr("y", function(d){ return d.y; });
+                  }
+        force.on("tick", function(){    //对于每一个时间间隔
+             //更新连线坐标
+             svg_edges.attr("x1",function(d){ return validateXY(d.source.x,'x'); })
+                     .attr("y1",function(d){ return validateXY(d.source.y,'y'); })
+                     .attr("x2",function(d){ return validateXY(d.target.x,'x'); })
+                     .attr("y2",function(d){ return validateXY(d.target.y,'y'); });
+             
+             //更新节点坐标
+             svg_nodes.attr("cx",function(d){ return validateXY(d.x,'x'); })
+                     .attr("cy",function(d){ return validateXY(d.y,'y'); });
+
+             //更新文字坐标
+             svg_texts.attr("x", function(d){ return validateXY(d.x,'x'); })
+                 .attr("y", function(d){ return validateXY(d.y,'y'); });
+        });
+        
+        //校验坐标是否在范围内，20为圆的半径
+        function validateXY(val,type){
+            
+            return val/3 +150
+        }
+        // d3.select().selectAll("circle").on("mouseover",function(d){
+        //     console.log(d)
+        // })
+        });
+    // })
+    </script>
+</body>
+
+</html>

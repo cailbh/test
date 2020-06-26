@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+	<title>demo</title>
+	<script src="echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="height: 1000px;width: 1000px">
+</body>
+<script src="http://d3js.org/d3.v4.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('main'));
+    var data=[];
+d3.csv("p1.csv",function(a)
+{
+for(i=0;i<3;i++)
+{
+	data.push([])
+}
+console.log(data);
+for(i=0;i<a.length;i++)
+{
+	console.log(a[i])
+	data[parseInt(a[i].com)].push([parseFloat(a[i].v),parseInt(a[i].rad)]);
+}
+for(i=0;i<data.length;i++)
+{
+	data[i].push([data[i][0][0],360]);
+}
+console.log(data)
+option = {
+    title: {
+        text: '极坐标双数值轴'
+    },
+    legend: {
+        data: ['line']
+    },
+    polar: {},
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross'
+        }
+    },
+    angleAxis: {
+        type: 'value',
+        startAngle: 0
+    },
+    radiusAxis: {
+    },
+    series: [{
+        coordinateSystem: 'polar',
+        name: '0',
+        type: 'line',
+        data: data[0]
+    },
+    {
+        coordinateSystem: 'polar',
+        name: '1',
+        type: 'line',
+        data: data[1]
+    },
+    {
+        coordinateSystem: 'polar',
+        name: '2',
+        type: 'line',
+        data: data[2]
+    },
+    ]
+};
+myChart.setOption(option);	
+})
+
+</script>
+</html>

@@ -1,0 +1,87 @@
+/*div样式*/
+#l{
+    height: 540px;
+    width: 300px;
+    float: left;
+/*		background-color: blue;*/
+}
+#r{
+      float: left;
+    width: 1200px;
+    height: 1400px;
+  position: absolute;
+  top: 540px;
+  left: 0px;
+}
+#rt1{
+    float: left;
+    width: 400px;
+    height: 400px;
+}
+#rt2{
+    float: left;
+    width: 800px;
+    height: 400px;
+}
+#rb{
+    float: left;
+    width: 900px;
+    height: 540px;
+}
+#g1{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g2{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g3{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g4{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g5{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#g6{
+    float: left;
+    width: 250px;
+    height: 250px;
+}
+#san1{
+    height: 500px;
+    width:750px;
+    float: left;
+position: relative;
+left: 75px;
+}
+.node rect {
+cursor: move;
+fill-opacity: .9;
+shape-rendering: crispEdges;
+}
+
+.node text {
+pointer-events: none;
+text-shadow: 0 1px 0 #fff;
+}
+
+.link {
+fill: none;
+stroke: #000;
+stroke-opacity: .2;
+}
+
+.link:hover {
+stroke-opacity: .5;
+}

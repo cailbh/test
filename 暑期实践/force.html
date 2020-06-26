@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<meta charset=UTF-8>
+<html>
+<head>
+	<title>力引导图</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
+<script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+<body>
+  <script type="text/javascript">
+    let type = "WebGL"
+    if(!PIXI.utils.isWebGLSupported()){
+      type = "canvas"
+    }
+
+    PIXI.utils.sayHello(type)
+	//Create a Pixi Application
+let app = new PIXI.Application({width: 800, height: 800});
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
+app.renderer.backgroundColor = 0xFFFFFF;
+var links=new PIXI.Graphics();
+app.stage.addChild(links);
+d3.csv("data1/node.csv",function(f){
+d3.csv("data1/link.csv",function(d){
+data=[];
+for(var i=0;i<d.length;i++)
+{
+	data.push({source:parseInt(d[i].source),target:parseInt(d[i].target)});
+}
+var simulation = d3.forceSimulation(f)
+    .force("charge", d3.forceManyBody())
+    .force("link", d3.forceLink(data).distance(10))
+    .force("center", d3.forceCenter(500,500));
+simulation.nodes(f).on("tick",ticked);
+simulation.force('link').links(data);
+function ticked(){
+  f.forEach((i)=>{
+    i.circle.position=new PIXI.Point(i.x,i.y)
+  })
+    links.clear()
+    links.alpha = 0.1
+  data.forEach((i)=>{
+    links.lineStyle(1, 0x808080, 1)
+    links.moveTo(i.source.x,i.source.y)
+    links.lineTo(i.target.x,i.target.y)
+  })
+  links.endFill()
+  app.stage.scale.set(0.5,0.5)
+}
+for(var i=0;i<f.length;i++)
+{
+f[i].circle = new PIXI.Graphics;
+f[i].circle.beginFill(0x000000);
+f[i].circle.drawCircle(0, 0, 3);
+f[i].circle.endFill();
+f[i].circle.x = f[i].x+300;
+f[i].circle.y = f[i].y+300;
+app.stage.addChild(f[i].circle);
+}
+
+console.log(data);
+console.log(f);
+})
+})
+  </script>
+</body>
+</html>

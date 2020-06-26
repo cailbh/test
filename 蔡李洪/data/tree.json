@@ -1,0 +1,94 @@
+{
+    "name":"rooot",
+    "children":
+    [
+        { 
+          "name":"A" , 
+            "children":
+            [
+                    {"name":"B" },
+                    {"name":"C" },
+                    {"name":"D" },
+                    {"name":"S" }
+            ] 
+          },
+          
+        { 
+            "name":"E" , 
+            "children":
+            [
+                {
+                    "name":"F",
+                    "children":
+                    [
+                        {"name":"N"},
+                        {"name":"G"},
+                        {"name":"H"}
+                    ]
+                },
+                {
+                    "name":"I",
+                    "children":
+                    [
+                        {"name":"J"},
+                        {"name":"K"}
+                    ]
+                },
+                {"name":"L"}
+            ] 
+        },
+        
+        { 
+            "name":"M",
+            "children":
+            [
+                {
+                    "name":"U",
+                    "children":
+                    [
+                        {"name":"V"},
+                        {"name":"W"}
+                    ]
+                },
+                {
+                    "name":"X",
+                    "children":
+                    [
+                        {"name":"Y"},
+                        {"name":"Z"}
+                    ]
+                },
+                {"name":"O"},
+                {
+                    "name":"P",
+                    "children":
+                    [
+                        {"name":"Q"},
+                        {"name":"R"},
+                        {"name":"T"}
+                    ]
+                },
+                {"name":"a"},
+                {"name":"b"},
+                {"name":"c"}
+            ] 
+        },
+        
+        { 
+            "name":"d" , 
+            "children":
+            [
+                {
+                    "name":"e",
+                    "children":
+                    [
+                        {"name":"f"},
+                        {"name":"g"},
+                        {"name":"h"}
+                    ]
+                },
+                {"name":"i"}
+            ]
+        }
+    ]
+    }

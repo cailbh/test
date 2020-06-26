@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<meta charset=UTF-8>
+<html>
+<head>
+	<title>网络表征学习</title>
+	<style type="text/css">
+	/*div样式*/
+	#l{
+		height: 540px;
+		width: 300px;
+		float: left;
+/*		background-color: blue;*/
+	}
+	#r{
+		  float: left;
+	    width: 1200px;
+	    height: 1400px;
+      position: absolute;
+      top: 540px;
+      left: 0px;
+	}
+	#rt1{
+		float: left;
+	    width: 400px;
+	    height: 400px;
+	}
+	#rt2{
+		float: left;
+	    width: 500px;
+	    height: 400px;
+	}
+	#rb{
+		float: left;
+	    width: 900px;
+	    height: 540px;
+	}
+	#g1{
+		float: left;
+		width: 250px;
+		height: 250px;
+	}
+	#g2{
+		float: left;
+		width: 250px;
+		height: 250px;
+	}
+	#g3{
+		float: left;
+		width: 250px;
+		height: 250px;
+	}
+	#g4{
+		float: left;
+		width: 250px;
+		height: 250px;
+	}
+	#g5{
+		float: left;
+		width: 250px;
+		height: 250px;
+	}
+	#g6{
+		float: left;
+		width: 250px;
+		height: 250px;
+	}
+	#san1{
+		height: 500px;
+		width:750px;
+		float: left;
+    position: relative;
+    left: 75px;
+	}
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+ 
+.node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+}
+ 
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+}
+ 
+.link:hover {
+  stroke-opacity: .5;
+}
+
+	</style>
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+</head>
+<body>
+	<!-- //左侧图 -->
+
+
+  <div id="rb" class="panel panel-primary">
+    <div class="panel-heading">
+      <h2 class="panel-title" id="title1">采样散点图
+      </h2>
+    </div>
+    <div style="height: 500px;width: 1000px">
+    <div id="san1">
+      <div>
+      <div id="g1"></div>
+      <div id="g2"></div>
+      <div id="g3"></div>
+    </div>
+    <div>
+      <div id="g4"></div>
+      <div id="g5"></div>
+      <div id="g6"></div>
+      </div>
+  </div>
+  </div>
+
+    <div id="r">
+    <!-- 右上布局 -->
+	<div id="rt1" class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="panel-title" >力引导图
+			</h2>
+		</div>
+		<div style="height: 400px;width: 400px;border: 1;" id="force"></div>
+	</div>
+	<div id="rt2" class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="panel-title" id="t2" >用户答卷
+			</h2>
+		</div>
+    <div style="height: 50px;"></div>
+    <div align="center">
+    <p>请您根据力引导图（该图展现原始图结构和各点对应社区颜色类别）中点的分布和颜色类别去评判六种表征学习算法在散点图的表示情况，并且给出主观的评判。提示：可从同类颜色点的聚集分布情况、同类颜色点的轮廓大小、不同类点的重叠程度等方面进行主观判断<p>
+    </div>
+    <div align="center">
+    <button type="button" class="btn btn-primary" >差</button>
+    <button type="button" class="btn btn-primary" >较差</button>
+    <button type="button" class="btn btn-primary" >一般</button>
+    <button type="button" class="btn btn-primary" >较好</button>
+    <button type="button" class="btn btn-primary" >好</button>
+  </div>
+    </div>
+	</div>
+    <!-- 右上布局 -->
+</body>
+<script src="http://d3js.org/d3.v4.js" charset="utf-8"></script>
+<script src="sankey.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="heatmap.js"></script>
+<script src="echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
+<script type="text/javascript">
+
+    var color = d3.schemeCategory20;
+    var colore=[0x00FFFF,0x0000FF,0xFF00FF,0x808080,0x008000,0x00FF00,0x800000,0x000080,0x808000,0x800080,0xFF0000,0xC0C0C0,0x008080,0xFFFF00]
+
+    var svg = d3.select("#sankey")//sankey
+	.append("svg")
+    .attr("width",800)
+    .attr("height",360)
+    .append("g");
+
+    var width=799,height=350;
+
+
+	var config2 = { 
+        container: document.getElementById("g1"),
+        radius: 3, 
+        maxOpacity: .7, 
+        minOpacity: 0, 
+        blur: .75};
+        // create heatmap with configuration 
+        var h1 = h337.create(config2);
+
+	var config3 = { 
+        container: document.getElementById("g2"),
+        radius: 3, 
+        maxOpacity: .7, 
+        minOpacity: 0, 
+        blur: .75};
+        // create heatmap with configuration 
+        var h2 = h337.create(config3);   
+
+	var config4 = { 
+        container: document.getElementById("g3"),
+        radius: 3, 
+        maxOpacity: .7, 
+        minOpacity: 0, 
+        blur: .75};
+        // create heatmap with configuration 
+        var h3 = h337.create(config4); 
+
+	var config5 = { 
+        container: document.getElementById("g4"),
+        radius: 3, 
+        maxOpacity: .7, 
+        minOpacity: 0, 
+        blur: .75};
+        // create heatmap with configuration 
+        var h4 = h337.create(config5); 
+
+	var config6 = { 
+        container: document.getElementById("g5"),
+        radius: 3, 
+        maxOpacity: .7, 
+        minOpacity: 0, 
+        blur: .75};
+        // create heatmap with configuration 
+        var h5 = h337.create(config6); 
+
+    var config6 = { 
+        container: document.getElementById("g6"),
+        radius: 3, 
+        maxOpacity: .7, 
+        minOpacity: 0, 
+        blur: .75};
+        // create heatmap with configuration 
+        var h6 = h337.create(config6);
+
+
+    //创建热力图画布
+
+    var g1=d3.select("#g1")
+	.append("svg")
+	.attr("width",400)
+	.attr("height",400);
+
+    g1.append("text").text("deepwalk").attr("x",10).attr("y",20);
+
+	var g2=d3.select("#g2")
+	.append("svg")
+	.attr("width",400)
+	.attr("height",400);
+
+	g2.append("text").text("gf").attr("x",10).attr("y",20);
+
+	var g3=d3.select("#g3")
+	.append("svg")
+	.attr("width",400)
+	.attr("height",400);
+
+	g3.append("text").text("sdne").attr("x",10).attr("y",20);
+
+
+	var g4=d3.select("#g4")
+	.append("svg")
+	.attr("width",400)
+	.attr("height",400);
+
+	g4.append("text").text("le").attr("x",10).attr("y",20);
+
+	var g5=d3.select("#g5")
+	.append("svg")
+	.attr("width",400)
+	.attr("height",400);
+
+	g5.append("text").text("node2vec").attr("x",10).attr("y",20);
+
+	var g6=d3.select("#g6")
+	.append("svg")
+	.attr("width",400)
+	.attr("height",400);
+
+	g6.append("text").text("lle").attr("x",10).attr("y",20);
+
+	//d3画布
+
+    let type = "WebGL"
+    if(!PIXI.utils.isWebGLSupported()){
+      type = "canvas"
+    }
+
+    PIXI.utils.sayHello(type)
+    //测试PIXI是否成功
+    let app = new PIXI.Application({width: 800, height: 800});
+    document.getElementById("force").appendChild(app.view);
+    app.renderer.backgroundColor = 0xFFFFFF;
+    //canvas画布——PIXI
+    app.stage.removeChildren();
+  var links=new PIXI.Graphics();
+    app.stage.addChild(links);
+
+d3.csv("data1/node.csv",function(f){
+d3.csv("data1/link.csv",function(d){
+data=[];
+for(var i=0;i<d.length;i++)
+{
+  data.push({source:parseInt(d[i].source),target:parseInt(d[i].target)});
+}
+var simulation = d3.forceSimulation(f)
+    .force("charge", d3.forceManyBody())
+    .force("link", d3.forceLink(data).distance(10))
+    .force("center", d3.forceCenter(500,500));
+simulation.nodes(f).on("tick",ticked);
+simulation.force('link').links(data);
+function ticked(){
+  f.forEach((i)=>{
+    i.circle.position=new PIXI.Point(i.x,i.y)
+  })
+    links.clear()
+    links.alpha = 0.1
+  data.forEach((i)=>{
+    links.lineStyle(1, 0x808080, 1)
+    links.moveTo(i.source.x,i.source.y)
+    links.lineTo(i.target.x,i.target.y)
+  })
+  links.endFill()
+  app.stage.scale.set(0.4,0.4)
+}
+for(var i=0;i<f.length;i++)
+{
+f[i].circle = new PIXI.Graphics;
+f[i].circle.beginFill(parseInt(color[parseInt(f[i].tag)].replace("#","0x")));
+f[i].circle.drawCircle(0, 0, 6);
+f[i].circle.endFill();
+f[i].circle.x = f[i].x+400;
+f[i].circle.y = f[i].y+400;
+app.stage.addChild(f[i].circle);
+}
+
+console.log(data);
+console.log(f);
+})
+})
+
+d3.csv("data1/dw.csv",function(d){
+      var linear=d3.scaleLinear()
+    .domain([-70,70])
+    .range([0,240]);
+
+    for (var i =0;i<d.length;i++)
+    {
+      g1.append("circle")
+      .attr("cx",linear(d[i].x))
+      .attr("cy",linear(d[i].y))
+      .attr("r",3)
+      .attr("id",d[i].tag+","+d[i].com)
+      .attr("class","top")
+      .attr("fill",function(){
+      return color[parseInt(d[i].com)];
+      });
+    }
+          });
+
+          d3.csv("data1/gf.csv",function(d){
+      var linear=d3.scaleLinear()
+    .domain([-70,70])
+    .range([0,240]);
+
+    for (var i =0;i<d.length;i++)
+    {
+      g2.append("circle")
+      .attr("cx",linear(d[i].x))
+      .attr("cy",linear(d[i].y))
+      .attr("r",3)
+      .attr("id",d[i].tag+","+d[i].com)
+      .attr("class","top")
+      .attr("fill",function(){
+      return color[parseInt(d[i].com)];
+      });
+    }
+          });
+
+          d3.csv("data1/sdne.csv",function(d){
+      var linear=d3.scaleLinear()
+    .domain([-70,70])
+    .range([0,240]);
+
+    for (var i =0;i<d.length;i++)
+    {
+      g3.append("circle")
+      .attr("cx",linear(d[i].x))
+      .attr("cy",linear(d[i].y))
+      .attr("r",3)
+      .attr("id",d[i].tag+","+d[i].com)
+      .attr("class","top")
+      .attr("fill",function(){
+      return color[parseInt(d[i].com)];
+      });
+    }
+              });
+
+      d3.csv("data1/lap.csv",function(d){
+    var linear=d3.scaleLinear()
+    .domain([-70,70])
+    .range([0,240]);
+
+    for (var i =0;i<d.length;i++)
+    {
+      g4.append("circle")
+      .attr("cx",linear(d[i].x))
+      .attr("cy",linear(d[i].y))
+      .attr("r",3)
+      .attr("id",d[i].tag+","+d[i].com)
+      .attr("class","top")
+      .attr("fill",function(){
+      return color[parseInt(d[i].com)];
+      });
+    }
+               });
+
+
+      d3.csv("data1/n2v.csv",function(d){
+    var linear=d3.scaleLinear()
+    .domain([-70,70])
+    .range([0,240]);
+
+    for (var i =0;i<d.length;i++)
+    {
+      g5.append("circle")
+      .attr("cx",linear(d[i].x))
+      .attr("cy",linear(d[i].y))
+      .attr("r",3)
+      .attr("id",d[i].tag+","+d[i].com)
+      .attr("class","top")
+      .attr("fill",function(){
+      return color[parseInt(d[i].com)];
+      });
+    }
+               });
+
+      d3.csv("data1/lle.csv",function(d){
+    var linear=d3.scaleLinear()
+    .domain([-70,70])
+    .range([0,240]);
+
+    for (var i =0;i<d.length;i++)
+    {
+      g6.append("circle")
+      .attr("cx",linear(d[i].x))
+      .attr("cy",linear(d[i].y))
+      .attr("r",3)
+      .attr("id",d[i].tag+","+d[i].com)
+      .attr("class","top")
+      .attr("fill",function(){
+      return color[parseInt(d[i].com)];
+      });
+    }
+               });
+</script>
+</html>
